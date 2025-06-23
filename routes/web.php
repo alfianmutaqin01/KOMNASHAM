@@ -6,6 +6,6 @@ Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
 });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/login', function () {
+    return view('auth.login');
 });
