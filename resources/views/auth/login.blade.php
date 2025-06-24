@@ -12,7 +12,7 @@
     <link href="{{ asset('limitless4.0/html/layout_1/full/assets/css/ltr/all.min.css') }}" id="stylesheet"
         rel="stylesheet" type="text/css">
     @if (app()->environment('local'))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite([])
     @endif
 
     @livewireStyles
@@ -41,7 +41,8 @@
                                     <label class="form-label" for="email">Email</label>
                                     <div class="form-control-feedback form-control-feedback-start">
                                         <input type="email" class="form-control" placeholder="john@doe.com"
-                                            id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
+                                            id="email" name="email" value="{{ old('email') }}" required autofocus
+                                            autocomplete="username">
                                         <div class="form-control-feedback-icon">
                                             <i class="ph-user-circle text-muted"></i>
                                         </div>
@@ -63,12 +64,14 @@
 
                                 <div class="mb-3 d-flex align-items-center justify-content-between">
                                     <label class="form-check form-check-inline">
-                                        <input type="checkbox" name="remember" id="remember_me" class="form-check-input">
+                                        <input type="checkbox" name="remember" id="remember_me"
+                                            class="form-check-input">
                                         <span class="form-check-label">Ingat saya</span>
                                     </label>
 
                                     @if (Route::has('password.request'))
-                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata sandi?</a>
+                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata
+                                            sandi?</a>
                                     @endif
                                 </div>
 
