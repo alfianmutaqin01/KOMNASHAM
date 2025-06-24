@@ -7,6 +7,10 @@ Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
 });
 
-Route::get('/login', function () {
+Route::get('/', function () {
     return view('auth.login');
+});
+
+Route::get('dashboard', function () {
+    return view('backend.dashboard');
 });
