@@ -9,7 +9,7 @@
     @if (app()->environment('local'))
         @vite([])
     @endif
-    
+
     @livewireStyles
 </head>
 
@@ -24,6 +24,8 @@
             <div class="content-inner">
 
                 @yield('content')
+                
+                {{ $slot ?? '' }}
 
                 @include('backend.includes.footer')
             </div>

@@ -10,3 +10,6 @@
     </div>
     <!-- /content area -->
 @endsection
+{{-- <x-backend.layout.app>
+    <h1>Ini dari slot</h1>
+</x-backend.layout.app> --}}
