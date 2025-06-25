@@ -3,62 +3,66 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\IsAdmin;
+use App\Http\Controllers\ReportController;
 
-// Rute dokumentasi Limitless (Opsional)
+// Route untuk dokumentasi template
 Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
 });
 
-// Rute utama: Redirect setelah login berdasarkan role
+// Route untuk root URL
 Route::get('/', function () {
     if (Auth::check()) {
-        if (Auth::user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
         return redirect()->route('dashboard');
     }
     return redirect()->route('login');
 });
 
-// Grup rute untuk user yang sudah login
+// Group route yang membutuhkan autentikasi
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
 
-    // Dashboard Komisioner (User Biasa)
+    // Dashboard Universal
     Route::get('/dashboard', function () {
-        return view('dashboard'); // View: resources/views/dashboard.blade.php
+        return view('dashboard.default');
     })->name('dashboard');
 
     // Profil Pengguna
     Route::get('/user/profile', function () {
-        return view('profile.show'); // View: resources/views/profile/show.blade.php
+        return view('profile.show');
     })->name('profile.show');
 
-    // Grup rute khusus untuk Admin
-    Route::middleware([IsAdmin::class]) // ✅ Laravel 12 harus pakai class penuh
-        ->prefix('admin')
-        ->name('admin.')
-        ->group(function () {
+    // Manajemen Pengguna (Admin)
+    Route::get('/admin/users', function () {
+        return view('admin.users.index');
+    })->name('admin.users');
 
-            // Dashboard Admin
-            Route::get('/dashboard', function () {
-                return view('admin.dashboard'); // View: resources/views/admin/dashboard.blade.php
-            })->name('dashboard');
+    // Pengaturan Sistem (Admin)
+    Route::get('/admin/settings', function () {
+        return view('admin.settings.index');
+    })->name('admin.settings');
 
-            // Manajemen User (CRUD)
-            Route::get('/users', function () {
-                return view('admin.users.index'); // View: resources/views/admin/users/index.blade.php
-            })->name('users');
+    // Group route khusus Komisioner
+    Route::prefix('komisioner')->name('komisioner.')->group(function () {
 
-            // Pengaturan Format Surat Tugas
-            Route::get('/settings', function () {
-                return view('admin.settings.index'); // View: resources/views/admin/settings/index.blade.php
-            })->name('settings');
+        // Buat Laporan Baru
+        Route::get('/laporan/baru', function () {
+            return view('komisioner.laporan.create');
+        })->name('laporan.baru');
 
-            // Rute admin tambahan bisa ditulis di sini
-        });
+        // Riwayat Laporan
+        Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
+
+        // Cetak Surat
+        Route::get('/surat/cetak', function () {
+            return view('komisioner.surat.print');
+        })->name('surat.cetak');
+    });
+
+    // Cetak PDF Laporan
+    Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
+
 });

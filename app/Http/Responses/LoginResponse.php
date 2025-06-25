@@ -3,15 +3,13 @@
 namespace App\Http\Responses;
 
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class LoginResponse implements LoginResponseContract
 {
-    public function toResponse($request)
+    public function toResponse($request): RedirectResponse
     {
-        $user = auth()->user();
-
-        $home = $user->isAdmin() ? route('admin.dashboard') : route('dashboard');
-
-        return redirect()->intended($home);
+        return redirect()->intended(route('dashboard'));
     }
 }
