@@ -65,7 +65,7 @@
                     <a href="{{ route('komisioner.laporan.baru') }}" class="nav-link">
 
                         <i class="ph-note-pencil"></i>
-                        <span>Buat Laporan Baru</span>
+                        <span>Buat Laporan Hasil Sidak</span>
                     </a>
                 </li>
                 <li
