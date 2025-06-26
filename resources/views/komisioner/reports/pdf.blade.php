@@ -17,14 +17,6 @@
         h3,
         h4,
         h5,
-        h6 {
-            font-family: 'Inter', 'Times New Roman';
-            /* Pastikan heading juga Inter */
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #222;
-        }
-
         .header {
             text-align: center;
             margin-bottom: 20px;
