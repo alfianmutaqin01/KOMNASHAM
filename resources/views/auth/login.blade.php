@@ -30,6 +30,15 @@
 
                         <div class="card mb-0">
                             <div class="card-body">
+
+                                <div class="text-center mb-5">
+                                    <a href="{{ route('dashboard') }}"
+                                        class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                                        <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}"
+                                            alt="Komnas HAM Logo Icon" class="img-fluid"
+                                            style="width: 200px; height: auto;">
+                                    </a>
+                                </div>
                                 <div class="text-center mb-3">
                                     <h5 class="mb-0">Masuk ke akun Anda</h5>
                                     <span class="d-block text-muted">Masukkan kredensial Anda di bawah ini</span>
@@ -40,8 +49,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="email">Email</label>
                                     <div class="form-control-feedback form-control-feedback-start">
-                                        <input type="email" class="form-control" placeholder="john@doe.com"
-                                            id="email" name="email" value="{{ old('email') }}" required autofocus
+                                        <input type="email" class="form-control" placeholder="ahmad@gmail.com" id="email"
+                                            name="email" value="{{ old('email') }}" required autofocus
                                             autocomplete="username">
                                         <div class="form-control-feedback-icon">
                                             <i class="ph-user-circle text-muted"></i>
@@ -76,7 +85,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                                    <button type="submit" class="btn btn-outline-primary w-100">Masuk</button>
                                 </div>
 
                             </div>
