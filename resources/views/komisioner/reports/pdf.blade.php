@@ -55,9 +55,6 @@
 
         .item-label {
             font-weight: bold;
-            width: 150px;
-            /* Lebar tetap untuk label */
-            display: inline-block;
         }
 
         .content-text {
@@ -93,12 +90,17 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin: 0;
         }
 
         table td {
             padding: 5px;
             vertical-align: top;
+        }
+
+        table td:first-child {
+            width: 30%;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -112,7 +114,7 @@
     </div>
 
     <div class="section-title">A. Informasi Umum</div>
-    <table>
+    <table border="1">
         <tr>
             <td class="item-label">Tanggal Sidak:</td>
             <td>{{ $report->tanggal_sidak->translatedFormat('d F Y') }}</td>
