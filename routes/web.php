@@ -67,6 +67,6 @@ Route::middleware([
 
 });
 
-Route::get('dashboard', function () {
-    return view('backend.dashboard');
-})->name('dashboard');
+// Route::get('dashboard', function () {
+//     return view('backend.dashboard');
+// })->name('dashboard');
