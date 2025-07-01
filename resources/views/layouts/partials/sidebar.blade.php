@@ -39,7 +39,7 @@
                     </a>
                 </li>
 
-                @if (Auth::user()->role === 'admin')
+                @role('admin')
                     <li class="nav-item-header">
                         <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Manajemen Data Admin
                         </div>
@@ -52,15 +52,13 @@
                             <span>Manajemen Pengguna</span>
                         </a>
                     </li>
-                @endif {{-- End if Admin --}}
+                @endrole
 
-                @if (Auth::user()->role === 'user')
-                    <li class="nav-item-header">
-                        <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
-                        </div>
-                        <i class="ph-dots-three sidebar-resize-show"></i>
-                    </li>
-                @endif {{-- End if Komisioner --}}
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
+                    </div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('komisioner.laporan.baru') }}"
                         class="nav-link {{ request()->routeIs('komisioner.laporan.baru') ? 'active' : '' }}">

@@ -56,4 +56,16 @@ Route::get('/laporan/baru', function () {
 
         Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); // NAMANYA JADI komisioner.reports.print
     });
+<<<<<<< HEAD
 });
+=======
+
+    // Cetak PDF Laporan
+    Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
+
+});
+
+// Route::get('dashboard', function () {
+//     return view('backend.dashboard');
+// })->name('dashboard');
+>>>>>>> 8e978e9d135b53f0366386ae7e5b6d3de0566a2b

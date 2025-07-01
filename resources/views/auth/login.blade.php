@@ -12,7 +12,7 @@
     <link href="{{ asset('limitless4.0/html/layout_1/full/assets/css/ltr/all.min.css') }}" id="stylesheet"
         rel="stylesheet" type="text/css">
     @if (app()->environment('local'))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite([])
     @endif
 
     @livewireStyles
@@ -79,7 +79,8 @@
                                     </label>
 
                                     @if (Route::has('password.request'))
-                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata sandi?</a>
+                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata
+                                            sandi?</a>
                                     @endif
                                 </div>
 
