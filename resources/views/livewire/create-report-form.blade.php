@@ -6,21 +6,19 @@
         </div>
 
         <div class="card-body">
-            {{-- Menampilkan pesan sukses dari session --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            {{-- Menampilkan pesan info dari session --}}
             @if (session('info'))
                 <div class="alert alert-info alert-dismissible fade show" role="alert">
                     {{ session('info') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            {{-- Anda juga bisa menambahkan @if (session('error')) dan @if (session('warning')) jika perlu --}}
+        
 
             <form wire:submit.prevent="saveReport">
                 <h6 class="mb-3 text-muted">A. Informasi Umum</h6>

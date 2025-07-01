@@ -2,7 +2,7 @@
 <html lang="id" dir="ltr">
 
 <head>
-    @include('layouts.partials.head') {{-- Mengimpor semua tag head --}}
+    @include('layouts.partials.head') 
     @if (app()->environment('local'))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -11,23 +11,22 @@
 
 <body>
 
-    @include('layouts.partials.navbar') {{-- Mengimpor Navbar --}}
+    @include('layouts.partials.navbar') 
 
     <div class="page-content">
 
-        @include('layouts.partials.sidebar') {{-- Mengimpor Sidebar --}}
+        @include('layouts.partials.sidebar')
 
         <div class="content-wrapper">
 
             <div class="content-inner">
 
-                @include('layouts.partials.page_header') {{-- Mengimpor Page Header --}}
+                @include('layouts.partials.page_header') 
 
-                {{-- Area konten utama yang akan diisi oleh halaman spesifik atau Livewire Page Component --}}
                 <div class="content">
                     @yield('content')
                 </div>
-                @include('layouts.partials.footer') {{-- Mengimpor Footer dan Offcanvas --}}
+                @include('layouts.partials.footer') 
 
             </div>
 
@@ -41,7 +40,7 @@
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('open-pdf', (event) => {
                 if (event.url) {
-                    window.open(event.url, '_blank'); // Buka URL di tab/jendela baru
+                    window.open(event.url, '_blank'); 
                 }
             });
         });

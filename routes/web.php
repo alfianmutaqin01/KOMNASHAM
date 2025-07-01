@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReportController;
-use App\Livewire\CreateReportForm; // Penting: Ini untuk rute '/laporan/baru'
-
+use App\Livewire\CreateReportForm;
 // Route untuk dokumentasi template
 Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
@@ -19,7 +18,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Group route yang membutuhkan autentikasi
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -51,15 +49,11 @@ Route::get('/laporan/baru', function () {
         // Riwayat Laporan
         Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
-        // Edit dan Hapus Laporan (Masih pakai Controller & Blade biasa)
         Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
         Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
         Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
-
-        // Cetak Surat
         Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');
 
-        // PERBAIKI: Nama rute cetak PDF harus konsisten: komisioner.reports.print
         Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); // NAMANYA JADI komisioner.reports.print
     });
 });

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 class CreateReportForm extends Component
 {
     protected $layout = 'dashboard';
-    public Report $report; // PENTING: Harus dideklarasikan
+    public Report $report;
 
     // Deklarasi properti lainnya tetap sama
     public $tanggal_sidak;
@@ -182,15 +182,13 @@ class CreateReportForm extends Component
 
         if ($submitAndPrint) {
             Session::flash('success', 'Laporan berhasil disimpan dan PDF akan dicetak!');
-            // PERBAIKI: Menggunakan nama rute yang konsisten 'komisioner.reports.print'
-            // Perhatikan bahwa rute ini memerlukan ID laporan sebagai parameter
             $this->dispatch('open-pdf', url: route('komisioner.reports.print', ['report' => $this->report->id]));
-            $this->resetForm(); // Kosongkan form setelah berhasil disimpan dan dicetak
-            return; // Tetap di halaman yang sama
+            $this->resetForm(); 
+            return; 
         } else {
-            $this->resetForm(); // Kosongkan form untuk draft
+            $this->resetForm(); 
             Session::flash('info', 'Draft laporan berhasil disimpan!');
-            return; // Tetap di halaman yang sama
+            return; 
         }
     }
 

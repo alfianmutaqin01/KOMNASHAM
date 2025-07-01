@@ -12,7 +12,7 @@ class ReportController extends Controller
 {
     public function printPdf(Report $report)
 {
-    // Pastikan hanya user yang bersangkutan atau admin yang bisa mencetak
+
     if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
         abort(403, 'Unauthorized action.');
     }
@@ -90,10 +90,9 @@ class ReportController extends Controller
         return redirect()->route('komisioner.laporan.riwayat')->with('success', 'Laporan berhasil diperbarui.');
     }
 
-    // Method untuk menghapus laporan
     public function destroy(Report $report)
     {
-        // Otorisasi: Pastikan hanya pemilik laporan atau admin yang bisa menghapus
+    
         if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
