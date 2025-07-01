@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReportController;
+use App\Livewire\CreateReportForm; // Penting: Ini untuk rute '/laporan/baru'
 
 // Route untuk dokumentasi template
 Route::get('template', function () {
@@ -40,29 +41,25 @@ Route::middleware([
         return view('admin.users.index');
     })->name('admin.users');
 
-    // Pengaturan Sistem (Admin)
-    Route::get('/admin/settings', function () {
-        return view('admin.settings.index');
-    })->name('admin.settings');
-
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
 
-        // Buat Laporan Baru
-        Route::get('/laporan/baru', function () {
-            return view('komisioner.laporan.create');
-        })->name('laporan.baru');
+Route::get('/laporan/baru', function () {
+    return view('komisioner.laporan.create');
+})->name('laporan.baru');
 
         // Riwayat Laporan
         Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
+        // Edit dan Hapus Laporan (Masih pakai Controller & Blade biasa)
+        Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
+        Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
+        Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
+
         // Cetak Surat
-        Route::get('/surat/cetak', function () {
-            return view('komisioner.surat.print');
-        })->name('surat.cetak');
+        Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');
+
+        // PERBAIKI: Nama rute cetak PDF harus konsisten: komisioner.reports.print
+        Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); // NAMANYA JADI komisioner.reports.print
     });
-
-    // Cetak PDF Laporan
-    Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
-
 });

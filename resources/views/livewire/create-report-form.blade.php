@@ -1,3 +1,4 @@
+{{-- File: resources/views/livewire/create-report-form.blade.php --}}
 <div>
     <div class="card">
         <div class="card-header">
@@ -5,12 +6,21 @@
         </div>
 
         <div class="card-body">
-            @if (session()->has('message'))
+            {{-- Menampilkan pesan sukses dari session --}}
+            @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('message') }}
+                    {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            {{-- Menampilkan pesan info dari session --}}
+            @if (session('info'))
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ session('info') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            {{-- Anda juga bisa menambahkan @if (session('error')) dan @if (session('warning')) jika perlu --}}
 
             <form wire:submit.prevent="saveReport">
                 <h6 class="mb-3 text-muted">A. Informasi Umum</h6>
@@ -269,10 +279,19 @@
                 <div class="text-end">
                     <button type="button" wire:click="saveReport(false)" class="btn btn-outline-warning">Simpan
                         Draft</button>
-                    <button type="submit" class="btn btn-outline-primary">Simpan dan Cetak PDF</button>
+                    <button type="button" wire:click="saveReport(true)" class="btn btn-outline-primary">Simpan dan Cetak
+                        PDF</button>
                 </div>
-                <h6 class="mt-4 mb-3 text-muted">G. Penutup</h6>
             </form>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('livewire:navigated', function () {
+        window.addEventListener('open-pdf', event => {
+            if (event.detail.url) {
+                window.open(event.detail.url, '_blank');
+            }
+        });
+    });
+</script>

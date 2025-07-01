@@ -28,56 +28,56 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}"
-                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="<?php echo e(route('dashboard')); ?>"
+                        class="nav-link <?php echo e(request()->routeIs('dashboard') ? 'active' : ''); ?>">
                         <i class="ph-house"></i>
                         <span>
                             Dashboard
                             <span
-                                class="d-block fw-normal opacity-50">{{ Auth::user()->role === 'admin' ? 'Admin' : 'Komisioner' }}</span>
+                                class="d-block fw-normal opacity-50"><?php echo e(Auth::user()->role === 'admin' ? 'Admin' : 'Komisioner'); ?></span>
                         </span>
                     </a>
                 </li>
 
-                @if (Auth::user()->role === 'admin')
+                <?php if(Auth::user()->role === 'admin'): ?>
                     <li class="nav-item-header">
                         <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Manajemen Data Admin
                         </div>
                         <i class="ph-dots-three sidebar-resize-show"></i>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.users') }}"
-                            class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                        <a href="<?php echo e(route('admin.users')); ?>"
+                            class="nav-link <?php echo e(request()->routeIs('admin.users') ? 'active' : ''); ?>">
                             <i class="ph-users-three"></i>
                             <span>Manajemen Pengguna</span>
                         </a>
                     </li>
-                @endif {{-- End if Admin --}}
+                <?php endif; ?> 
 
-                @if (Auth::user()->role === 'user')
+                <?php if(Auth::user()->role === 'user'): ?>
                     <li class="nav-item-header">
                         <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
                         </div>
                         <i class="ph-dots-three sidebar-resize-show"></i>
                     </li>
-                @endif {{-- End if Komisioner --}}
+                <?php endif; ?> 
                 <li class="nav-item">
-                    <a href="{{ route('komisioner.laporan.baru') }}"
-                        class="nav-link {{ request()->routeIs('komisioner.laporan.baru') ? 'active' : '' }}">
+                    <a href="<?php echo e(route('komisioner.laporan.baru')); ?>"
+                        class="nav-link <?php echo e(request()->routeIs('komisioner.laporan.baru') ? 'active' : ''); ?>">
                         <i class="ph-note-pencil"></i>
                         <span>Buat Laporan Hasil Sidak</span>
                     </a>
                 </li>
                 <li
-                    class="nav-item nav-item-submenu {{ request()->routeIs('komisioner.laporan.*') ? 'nav-item-expanded nav-item-open' : '' }}">
+                    class="nav-item nav-item-submenu <?php echo e(request()->routeIs('komisioner.laporan.*') ? 'nav-item-expanded nav-item-open' : ''); ?>">
                     <a href="#" class="nav-link">
                         <i class="ph-file-text"></i>
                         <span>Laporan Kegiatan</span>
                     </a>
-                    <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.laporan.*') ? 'show' : '' }}">
+                    <ul class="nav-group-sub collapse <?php echo e(request()->routeIs('komisioner.laporan.*') ? 'show' : ''); ?>">
                         <li class="nav-item">
-                            <a href="{{ route('komisioner.laporan.riwayat') }}"
-                                class="nav-link {{ request()->routeIs('komisioner.laporan.riwayat') ? 'active' : '' }}">
+                            <a href="<?php echo e(route('komisioner.laporan.riwayat')); ?>"
+                                class="nav-link <?php echo e(request()->routeIs('komisioner.laporan.riwayat') ? 'active' : ''); ?>">
                                 Riwayat Laporan
                             </a>
                         </li>
@@ -87,7 +87,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('komisioner.surat.cetak') }}" class="nav-link">
+                    <a href="<?php echo e(route('komisioner.surat.cetak')); ?>" class="nav-link">
                         <i class="ph-printer"></i>
                         <span>Cetak Surat</span>
                     </a>
@@ -95,4 +95,4 @@
             </ul>
         </div>
     </div>
-</div>
+</div><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/layouts/partials/sidebar.blade.php ENDPATH**/ ?>

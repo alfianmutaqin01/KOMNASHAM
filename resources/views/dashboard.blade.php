@@ -27,7 +27,6 @@
                 <div class="content">
                     @yield('content')
                 </div>
-
                 @include('layouts.partials.footer') {{-- Mengimpor Footer dan Offcanvas --}}
 
             </div>
@@ -38,5 +37,15 @@
 
     @livewireScripts
     @stack('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('open-pdf', (event) => {
+                if (event.url) {
+                    window.open(event.url, '_blank'); // Buka URL di tab/jendela baru
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
