@@ -16,7 +16,7 @@
 
     <div class="page-content">
 
-        <?php echo $__env->make('layouts.partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> 
+        <?php echo $__env->make('layouts.partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
         <div class="content-wrapper">
 
@@ -24,7 +24,6 @@
 
                 <?php echo $__env->make('layouts.partials.page_header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> 
 
-                
                 <div class="content">
                     <?php echo $__env->yieldContent('content'); ?>
                 </div>
@@ -43,7 +42,7 @@
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('open-pdf', (event) => {
                 if (event.url) {
-                    window.open(event.url, '_blank'); // Buka URL di tab/jendela baru
+                    window.open(event.url, '_blank'); 
                 }
             });
         });

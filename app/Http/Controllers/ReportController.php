@@ -6,45 +6,37 @@ use App\Models\Report;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use App\Livewire\CreateReportForm;
+// HAPUS: use App\Livewire\CreateReportForm; // Tidak lagi dibutuhkan di sini karena rute edit langsung menunjuk ke Livewire Component
 
 class ReportController extends Controller
 {
+    // Method untuk mencetak PDF laporan
+    // Ini adalah fungsionalitas yang terpisah dan dipanggil langsung via route
     public function printPdf(Report $report)
-{
-
-    if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
-        abort(403, 'Unauthorized action.');
-    }
-
-    $data = [
-        'report' => $report,
-        'user' => $report->user, 
-        'currentDate' => Carbon::now()->translatedFormat('d F Y'), // Untuk tanggal di footer PDF 
-    ];
-
-    $pdf = Pdf::loadView('komisioner.reports.pdf', $data);
-    return $pdf->download('Laporan_Sidak_' . $report->tanggal_sidak->format('Ymd') . '_' . $report->id . '.pdf');
-}
-
-    // Method untuk menampilkan riwayat laporan
-    public function history()
     {
-        if (auth()->user()->role === 'admin') {
-            $reports = Report::latest()->get();
-        } else {
-            $reports = Report::where('user_id', auth()->id())->latest()->get();
-        }
-        return view('komisioner.reports.history', compact('reports'));
-    }
-    //edit
-    public function edit(Report $report)
-    {
+        // Otorisasi: Pastikan hanya pemilik laporan atau admin yang bisa mencetak
         if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
-        return CreateReportForm::mount($report); 
+        $data = [
+            'report' => $report,
+            'user' => $report->user, // Memuat relasi user jika dibutuhkan di PDF
+            'currentDate' => Carbon::now()->translatedFormat('d F Y'), // Untuk tanggal di footer PDF
+        ];
+
+        // Memuat view PDF dan memicu unduhan
+        $pdf = Pdf::loadView('komisioner.reports.pdf', $data);
+        return $pdf->download('Laporan_Sidak_' . $report->tanggal_sidak->format('Ymd') . '_' . $report->id . '.pdf');
+    }
+    public function history()
+    {
+        if (auth()->user()->role === 'admin') {
+            $reports = Report::latest()->get(); // Admin melihat semua laporan
+        } else {
+            $reports = Report::where('user_id', auth()->id())->latest()->get(); // Komisioner hanya melihat laporannya sendiri
+        }
+        return view('komisioner.reports.history', compact('reports'));
     }
     public function update(Request $request, Report $report)
     {
@@ -52,6 +44,7 @@ class ReportController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // Validasi data dari request
         $validatedData = $request->validate([
             'tanggal_sidak' => 'required|date',
             'lokasi' => 'required|string|max:255',
@@ -92,13 +85,15 @@ class ReportController extends Controller
 
     public function destroy(Report $report)
     {
-    
+        // Otorisasi: Pastikan hanya pemilik laporan atau admin yang bisa menghapus
         if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
+        // Menghapus laporan dari database
         $report->delete();
 
+        // Mengalihkan kembali ke riwayat laporan dengan pesan sukses
         return redirect()->route('komisioner.laporan.riwayat')->with('success', 'Laporan berhasil dihapus.');
     }
 }

@@ -5,17 +5,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login Komnas HAM</title>
 
     <link href="{{ asset('limitless4.0/assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('limitless4.0/assets/icons/phosphor/styles.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('limitless4.0/html/layout_1/full/assets/css/ltr/all.min.css') }}" id="stylesheet"
-        rel="stylesheet" type="text/css">
+    <link href="{{ asset('limitless4.0/html/layout_1/full/assets/css/ltr/all.min.css') }}" id="stylesheet" rel="stylesheet" type="text/css">
+
     @if (app()->environment('local'))
         @vite([])
     @endif
 
     @livewireStyles
+    @stack('styles')
 </head>
 
 <body>
@@ -32,13 +34,11 @@
                             <div class="card-body">
 
                                 <div class="text-center mb-5">
-                                    <a href="{{ route('dashboard') }}"
-                                        class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                                        <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}"
-                                            alt="Komnas HAM Logo Icon" class="img-fluid"
-                                            style="width: 200px; height: auto;">
+                                    <a href="{{ route('dashboard') }}" class="position-absolute top-0 start-50 translate-middle-x mt-2">
+                                        <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}" alt="Komnas HAM Logo Icon" class="img-fluid" style="width: 200px; height: auto;">
                                     </a>
                                 </div>
+
                                 <div class="text-center mb-3">
                                     <h5 class="mb-0">Masuk ke akun Anda</h5>
                                     <span class="d-block text-muted">Masukkan kredensial Anda di bawah ini</span>
@@ -49,9 +49,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="email">Email</label>
                                     <div class="form-control-feedback form-control-feedback-start">
-                                        <input type="email" class="form-control" placeholder="ahmad@gmail.com" id="email"
-                                            name="email" value="{{ old('email') }}" required autofocus
-                                            autocomplete="username">
+                                        <input type="email" class="form-control" placeholder="ahmad@gmail.com" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
                                         <div class="form-control-feedback-icon">
                                             <i class="ph-user-circle text-muted"></i>
                                         </div>
@@ -61,11 +59,15 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="password">Kata Sandi</label>
-                                    <div class="form-control-feedback form-control-feedback-start">
-                                        <input type="password" class="form-control" placeholder="•••••••••••"
-                                            id="password" name="password" required autocomplete="current-password">
+                                    {{-- PERBAIKI: STRUKTUR DIV UNTUK ICON --}}
+                                    <div class="form-control-feedback form-control-feedback-start position-relative"> {{-- Tambah position-relative --}}
+                                        <input type="password" class="form-control" placeholder="•••••••••••" id="password" name="password" required autocomplete="current-password">
                                         <div class="form-control-feedback-icon">
                                             <i class="ph-lock text-muted"></i>
+                                        </div>
+                                        {{-- PINDAHKAN ICON MATA DI SINI AGAR BERADA DALAM DIV YANG SAMA DENGAN INPUT --}}
+                                        <div class="form-control-feedback-icon-end position-absolute end-0 top-50 translate-middle-y me-3" id="togglePasswordVisibility" style="cursor: pointer;"> {{-- Ganti kelas & tambah positioning --}}
+                                            <i class="ph-eye text-muted"></i>
                                         </div>
                                     </div>
                                     <x-input-error for="password" class="mt-2" />
@@ -73,14 +75,12 @@
 
                                 <div class="mb-3 d-flex align-items-center justify-content-between">
                                     <label class="form-check form-check-inline">
-                                        <input type="checkbox" name="remember" id="remember_me"
-                                            class="form-check-input">
+                                        <input type="checkbox" name="remember" id="remember_me" class="form-check-input">
                                         <span class="form-check-label">Ingat saya</span>
                                     </label>
 
                                     @if (Route::has('password.request'))
-                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata
-                                            sandi?</a>
+                                        <a class="text-muted" href="{{ route('password.request') }}">Lupa kata sandi?</a>
                                     @endif
                                 </div>
 
@@ -93,17 +93,47 @@
                     </form>
 
                 </div>
+
                 <div class="navbar navbar-sm navbar-footer border-top">
                     <div class="container-fluid">
-                        <span>&copy; 2025</span>
+                        <span>&copy; {{ date('Y') }} Komnas HAM</span>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
+    {{-- Bootstrap Bundle with Popper --}}
+    <script src="{{ asset('limitless4.0/assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+
     @livewireScripts
     @stack('scripts')
+
+    {{-- SCRIPT JAVASCRIPT UNTUK TOGGLE PASSWORD (TETAP SAMA) --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordField = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePasswordVisibility');
+            const toggleIcon = togglePassword?.querySelector('i');
+
+            if (togglePassword && toggleIcon) {
+                togglePassword.addEventListener('click', function () {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+
+                    if (type === 'password') {
+                        toggleIcon.classList.remove('ph-eye-slash');
+                        toggleIcon.classList.add('ph-eye');
+                    } else {
+                        toggleIcon.classList.remove('ph-eye');
+                        toggleIcon.classList.add('ph-eye-slash');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

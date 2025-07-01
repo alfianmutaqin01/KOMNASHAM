@@ -85,4 +85,22 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'spatie/laravel-google-cloud-storage' => 
+  array (
+    'aliases' => 
+    array (
+      'GoogleCloudStorage' => 'Spatie\\GoogleCloudStorage\\GoogleCloudStorageFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\GoogleCloudStorage\\GoogleCloudStorageServiceProvider',
+    ),
+  ),
+  'spatie/laravel-permission' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+    ),
+  ),
 );

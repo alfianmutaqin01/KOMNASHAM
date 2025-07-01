@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
     <?php
 $__split = function ($name, $params = []) {

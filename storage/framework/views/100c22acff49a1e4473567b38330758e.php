@@ -6,7 +6,6 @@
         </div>
 
         <div class="card-body">
-            
             <!--[if BLOCK]><![endif]--><?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?php echo e(session('success')); ?>
@@ -14,7 +13,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-            
             <!--[if BLOCK]><![endif]--><?php if(session('info')): ?>
                 <div class="alert alert-info alert-dismissible fade show" role="alert">
                     <?php echo e(session('info')); ?>
@@ -22,7 +20,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-            
+        
 
             <form wire:submit.prevent="saveReport">
                 <h6 class="mb-3 text-muted">A. Informasi Umum</h6>

@@ -39,7 +39,7 @@
                     </a>
                 </li>
 
-                <?php if(Auth::user()->role === 'admin'): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'admin')): ?>
                     <li class="nav-item-header">
                         <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Manajemen Data Admin
                         </div>
@@ -52,15 +52,13 @@
                             <span>Manajemen Pengguna</span>
                         </a>
                     </li>
-                <?php endif; ?> 
+                <?php endif; ?>
 
-                <?php if(Auth::user()->role === 'user'): ?>
-                    <li class="nav-item-header">
-                        <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
-                        </div>
-                        <i class="ph-dots-three sidebar-resize-show"></i>
-                    </li>
-                <?php endif; ?> 
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
+                    </div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
                 <li class="nav-item">
                     <a href="<?php echo e(route('komisioner.laporan.baru')); ?>"
                         class="nav-link <?php echo e(request()->routeIs('komisioner.laporan.baru') ? 'active' : ''); ?>">
@@ -95,4 +93,5 @@
             </ul>
         </div>
     </div>
-</div><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/layouts/partials/sidebar.blade.php ENDPATH**/ ?>
+</div>
+<?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/layouts/partials/sidebar.blade.php ENDPATH**/ ?>

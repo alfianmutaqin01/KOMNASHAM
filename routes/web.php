@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReportController;
 use App\Livewire\CreateReportForm;
+
 // Route untuk dokumentasi template
 Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
@@ -34,38 +35,22 @@ Route::middleware([
         return view('profile.show');
     })->name('profile.show');
 
-    // Manajemen Pengguna (Admin)
     Route::get('/admin/users', function () {
         return view('admin.users.index');
     })->name('admin.users');
 
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
-
-Route::get('/laporan/baru', function () {
-    return view('komisioner.laporan.create');
-})->name('laporan.baru');
-
+        Route::get('/laporan/baru', function () {return view('komisioner.laporan.create');
+        })->name('laporan.baru');
         // Riwayat Laporan
         Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
-        Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
+        Route::get('/laporan/{report}/edit', [App\Http\Controllers\ReportController::class, 'edit'])->name('laporan.edit');
         Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
         Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
         Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');
 
         Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); // NAMANYA JADI komisioner.reports.print
     });
-<<<<<<< HEAD
 });
-=======
-
-    // Cetak PDF Laporan
-    Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
-
-});
-
-// Route::get('dashboard', function () {
-//     return view('backend.dashboard');
-// })->name('dashboard');
->>>>>>> 8e978e9d135b53f0366386ae7e5b6d3de0566a2b
