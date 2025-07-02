@@ -1,6 +1,5 @@
 {{-- File: resources/views/livewire/create-report-form.blade.php --}}
 <div>
-    <h1>DEBUG: FORM LIVEWIRE MUNCUL!</h1>
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Form Laporan Hasil Sidak</h5>

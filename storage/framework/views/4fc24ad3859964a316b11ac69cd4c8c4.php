@@ -125,10 +125,6 @@
                         <i class="ph-user-circle me-2"></i>
                         Profil Saya
                     </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ph-gear me-2"></i>
-                        Pengaturan Akun
-                    </a>
                     <div class="dropdown-divider"></div>
                     <form method="POST" action="<?php echo e(route('logout')); ?>" x-data>
                         <?php echo csrf_field(); ?>

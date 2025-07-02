@@ -1,7 +1,7 @@
 <div>
     <div class="row mb-3">
         <div class="col-md-4">
-            <input type="text" wire:model.live="search" class="form-control" placeholder="Cari pengguna...">
+            <input type="text" wire:model.live="search" class="form-control rounded-3" placeholder="Cari pengguna...">
         </div>
         <div class="col-md-8 text-end">
             <button type="button" wire:click="createUser" class="btn btn-outline-primary">Tambah Pengguna Baru</button>

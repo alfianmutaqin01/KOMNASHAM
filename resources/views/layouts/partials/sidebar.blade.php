@@ -40,50 +40,70 @@
                 </li>
 
                 @role('admin')
-                    <li class="nav-item-header">
-                        <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Manajemen Data Admin
-                        </div>
-                        <i class="ph-dots-three sidebar-resize-show"></i>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.users') }}"
-                            class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
-                            <i class="ph-users-three"></i>
-                            <span>Manajemen Pengguna</span>
-                        </a>
-                    </li>
-                @endrole
-
                 <li class="nav-item-header">
-                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Kegiatan Komisioner
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Manajemen Data Admin
                     </div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('komisioner.laporan.baru') }}"
-                        class="nav-link {{ request()->routeIs('komisioner.laporan.baru') ? 'active' : '' }}">
-                        <i class="ph-note-pencil"></i>
-                        <span>Buat Laporan Hasil Sidak</span>
+                    <a href="{{ route('admin.users') }}"
+                        class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                        <i class="ph-users-three"></i>
+                        <span>Manajemen Pengguna</span>
                     </a>
                 </li>
+                @endrole
+
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Aktivitas Komisioner
+                    </div> {{-- Ganti Kegiatan Komisioner menjadi Aktivitas Komisioner --}}
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                {{-- Menu Laporan Hasil Sidak --}}
                 <li
                     class="nav-item nav-item-submenu {{ request()->routeIs('komisioner.laporan.*') ? 'nav-item-expanded nav-item-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="ph-note-pencil"></i>
+                        <span>Laporan Hasil Sidak</span>
+                    </a>
+                    <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.laporan.*') ? 'show' : '' }}">
+                        <li class="nav-item">
+                            <a href="{{ route('komisioner.laporan.baru') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.laporan.baru') ? 'active' : '' }}">
+                                <span>Buat Laporan Sidak</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('komisioner.laporan.riwayat') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.laporan.riwayat') || request()->routeIs('komisioner.laporan.edit') ? 'active' : '' }}"> {{-- Tambah active untuk edit --}}
+                                Riwayat Laporan Sidak
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- TAMBAH: Menu Laporan Kegiatan Baru --}}
+                <li
+                    class="nav-item nav-item-submenu {{ request()->routeIs('komisioner.kegiatan.*') ? 'nav-item-expanded nav-item-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="ph-file-text"></i>
                         <span>Laporan Kegiatan</span>
                     </a>
-                    <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.laporan.*') ? 'show' : '' }}">
+                    <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.kegiatan.*') ? 'show' : '' }}">
                         <li class="nav-item">
-                            <a href="{{ route('komisioner.laporan.riwayat') }}"
-                                class="nav-link {{ request()->routeIs('komisioner.laporan.riwayat') ? 'active' : '' }}">
-                                Riwayat Laporan
+                            <a href="{{ route('komisioner.kegiatan.baru') }}" class="nav-link {{ request()->routeIs('komisioner.kegiatan.baru') ? 'active' : '' }}">
+                                Buat Laporan Kegiatan
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Draf Laporan</a>
+                            <a href="{{ route('komisioner.kegiatan.riwayat') }}" class="nav-link {{ request()->routeIs('komisioner.kegiatan.riwayat') || request()->routeIs('komisioner.kegiatan.edit') ? 'active' : '' }}">
+                                Riwayat Laporan Kegiatan
+                            </a>
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="{{ route('komisioner.surat.cetak') }}" class="nav-link">
                         <i class="ph-printer"></i>
