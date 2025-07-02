@@ -1,14 +1,13 @@
 <div>
     <div class="row mb-3">
         <div class="col-md-4">
-            <input type="text" wire:model.live="search" class="form-control rounded-3" placeholder="Cari pengguna...">
+            <input type="text" wire:model.live="search" class="form-control" placeholder="Cari pengguna...">
         </div>
         <div class="col-md-8 text-end">
             <button type="button" wire:click="createUser" class="btn btn-outline-primary">Tambah Pengguna Baru</button>
         </div>
     </div>
 
-    
     <!--[if BLOCK]><![endif]--><?php if($showUserForm): ?>
         <div class="card mb-4">
             <div class="card-header bg-light">
@@ -119,16 +118,15 @@ unset($__errorArgs, $__bag); ?>">
                     </div>
 
                     <div class="text-end">
-                        <button type="button" wire:click="resetForm" class="btn btn-outline-danger me-2">Batal</button>
+                        <button type="button" wire:click="resetForm" class="btn btn-light me-2">Batal</button>
                         <button type="submit"
-                            class="btn btn-outline-primary"><?php echo e($isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna'); ?></button>
+                            class="btn btn-primary"><?php echo e($isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna'); ?></button>
                     </div>
                 </form>
             </div>
         </div>
     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-    
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
@@ -162,7 +160,6 @@ unset($__errorArgs, $__bag); ?>">
                         <td><?php echo e($user->name); ?></td>
                         <td><?php echo e($user->email); ?></td>
                         <td>
-                            
                             <?php echo e($user->roles->pluck('name')->first() ? ucfirst($user->roles->pluck('name')->first()) : 'N/A'); ?>
 
                         </td>
@@ -191,7 +188,6 @@ unset($__errorArgs, $__bag); ?>">
         </table>
     </div>
 
-    
     <div class="mt-3">
         <?php echo e($users->links()); ?>
 
