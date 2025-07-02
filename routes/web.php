@@ -4,12 +4,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SettingsController;
 
 // Route untuk dokumentasi template
 Route::get('template', function () {
     return File::get(public_path() . '/documentation.html');
 });
-
+//route registrasi pengguna baru
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
 // Route untuk root URL
 Route::get('/', function () {
     if (Auth::check()) {
@@ -45,6 +50,10 @@ Route::middleware([
         return view('admin.settings.index');
     })->name('admin.settings');
 
+    Route::get('/admin/user/edit', function () {
+        return view('admin.settings.index');
+    })->name('admin.user');
+
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
 
@@ -61,8 +70,15 @@ Route::middleware([
             return view('komisioner.surat.print');
         })->name('surat.cetak');
     });
+    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+
 
     // Cetak PDF Laporan
     Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
+
 
 });

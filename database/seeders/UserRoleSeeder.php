@@ -18,7 +18,7 @@ class UserRoleSeeder extends Seeder
             'name' => 'Admin Komnas HAM',
             'email' => 'admin@komnasham.com',
             'password' => Hash::make('password'),
-            'role' => 'admin', 
+            'role' => 'admin',
         ]);
 
         // Buat User Komisioner 1

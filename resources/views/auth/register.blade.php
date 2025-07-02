@@ -1,8 +1,16 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            {{-- <x-authentication-card-logo /> --}}
         </x-slot>
+
+        <h2 style="text-align: center; font-weight: bold; margin-bottom: 1rem;">Form Register</h2>
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+            <a href="{{ route('dashboard') }}">
+                <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}"
+                    alt="Komnas HAM Logo Icon" style="width: 200px; height: auto;">
+            </a>
+        </div>
 
         <x-validation-errors class="mb-4" />
 

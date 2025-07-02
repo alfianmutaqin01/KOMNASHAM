@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
@@ -18,7 +18,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', 
+        'role',
     ];
 
     protected $hidden = [
@@ -37,4 +37,8 @@ class User extends Authenticatable
         'password' => 'hashed',
         'role' => 'string',
     ];
+
+    public function scopeSearch($query, $value){
+        $query->where("name", "like", "%{$value}%");
+    }
 }

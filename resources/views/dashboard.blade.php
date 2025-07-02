@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="id" dir="ltr">
-
 <head>
-    @include('layouts.partials.head') {{-- Mengimpor semua tag head --}}
+    @include('layouts.partials.head') {{-- Meta, title, CSS Limitless, dll --}}
+
     @if (app()->environment('local'))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- Hanya saat development --}}
     @endif
+
     @livewireStyles
 </head>
-
 <body>
 
-    @include('layouts.partials.navbar') {{-- Mengimpor Navbar --}}
+    {{-- Navbar --}}
+    @include('layouts.partials.navbar')
 
     <div class="page-content">
 
-        @include('layouts.partials.sidebar') {{-- Mengimpor Sidebar --}}
+        {{-- Sidebar (kondisional) --}}
+        @unless (isset($hideSidebar))
+            @include('layouts.partials.sidebar')
+        @endunless
 
         <div class="content-wrapper">
-
             <div class="content-inner">
 
-                @include('layouts.partials.page_header') {{-- Mengimpor Page Header --}}
+                {{-- Page Header --}}
+                @include('layouts.partials.page_header')
 
-                {{-- Area konten utama yang akan diisi oleh halaman spesifik atau Livewire Page Component --}}
+                {{-- Konten halaman --}}
                 <div class="content">
                     @yield('content')
                 </div>
 
-                @include('layouts.partials.footer') {{-- Mengimpor Footer dan Offcanvas --}}
+                {{-- Footer --}}
+                @include('layouts.partials.footer')
 
             </div>
-
         </div>
 
     </div>

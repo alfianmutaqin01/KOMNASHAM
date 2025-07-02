@@ -41,7 +41,18 @@ return [
             'provider' => 'users',
         ],
     ],
+'defaults' => [
+    'guard' => 'web',
+    'passwords' => 'users',
+],
 
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+    // ...guard lain...
+],
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -70,6 +81,7 @@ return [
         //     'table' => 'users',
         // ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

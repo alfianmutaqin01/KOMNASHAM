@@ -59,7 +59,7 @@
                                     <x-input-error for="email" class="mt-2" />
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label" for="password">Kata Sandi</label>
                                     <div class="form-control-feedback form-control-feedback-start">
                                         <input type="password" class="form-control" placeholder="•••••••••••"
@@ -69,7 +69,19 @@
                                         </div>
                                     </div>
                                     <x-input-error for="password" class="mt-2" />
+                                </div> --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="password">Kata Sandi</label>
+                                    <div class="form-control-feedback form-control-feedback-start">
+                                        <input type="password" class="form-control" placeholder="•••••••••••"
+                                            id="password" name="password" required autocomplete="current-password">
+                                        <div class="form-control-feedback-icon" id="passwordToggleIcon">
+                                            <i class="ph-eye text-muted cursor-pointer" onclick="togglePasswordVisibility()"></i>
+                                        </div>
+                                    </div>
+                                    <x-input-error for="password" class="mt-2" />
                                 </div>
+
 
                                 <div class="mb-3 d-flex align-items-center justify-content-between">
                                     <label class="form-check form-check-inline">
@@ -83,11 +95,17 @@
                                     @endif
                                 </div>
 
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-outline-primary w-100">Masuk</button>
-                                </div>
-
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-outline-primary w-100">Masuk</button>
                             </div>
+                            <div class="text-center mt-3">
+                                <span class="text-muted">Belum punya akun?</span>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="text-primary ms-1">Daftar</a>
+                                @endif
+                            </div>
+                            </div>
+
                         </div>
                     </form>
 
@@ -103,6 +121,22 @@
 
     @livewireScripts
     @stack('scripts')
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const passwordToggleIcon = document.querySelector('#passwordToggleIcon i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordToggleIcon.classList.remove('ph-eye');
+                passwordToggleIcon.classList.add('ph-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                passwordToggleIcon.classList.remove('ph-eye-slash');
+                passwordToggleIcon.classList.add('ph-eye');
+            }
+        }
+    </script>
 </body>
 
 </html>
