@@ -6,15 +6,12 @@ use App\Models\Report;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-// HAPUS: use App\Livewire\CreateReportForm; // Tidak lagi dibutuhkan di sini karena rute edit langsung menunjuk ke Livewire Component
 
 class ReportController extends Controller
 {
-    // Method untuk mencetak PDF laporan
-    // Ini adalah fungsionalitas yang terpisah dan dipanggil langsung via route
+
     public function printPdf(Report $report)
     {
-        // Otorisasi: Pastikan hanya pemilik laporan atau admin yang bisa mencetak
         if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
@@ -37,6 +34,13 @@ class ReportController extends Controller
             $reports = Report::where('user_id', auth()->id())->latest()->get(); // Komisioner hanya melihat laporannya sendiri
         }
         return view('komisioner.reports.history', compact('reports'));
+    }
+    public function edit(Report $report)
+    {
+        if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+        return view('komisioner.laporan.edit', compact('report'));
     }
     public function update(Request $request, Report $report)
     {

@@ -38,4 +38,9 @@ class User extends Authenticatable
         'password' => 'hashed',
         'role' => 'string',
     ];
+    public function scopeSearch($query, $value)
+    {
+        return $query->where('name', 'like', '%' . $value . '%')
+                     ->orWhere('email', 'like', '%' . $value . '%');
+    }
 }

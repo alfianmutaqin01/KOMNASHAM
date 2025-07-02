@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReportController;
-use App\Livewire\CreateReportForm;
+use App\Http\Controllers\Admin\UserController;
 
 // Route untuk dokumentasi template
 Route::get('template', function () {
@@ -35,9 +35,7 @@ Route::middleware([
         return view('profile.show');
     })->name('profile.show');
 
-    Route::get('/admin/users', function () {
-        return view('admin.users.index');
-    })->name('admin.users');
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
 
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
@@ -46,7 +44,7 @@ Route::middleware([
         // Riwayat Laporan
         Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
-        Route::get('/laporan/{report}/edit', [App\Http\Controllers\ReportController::class, 'edit'])->name('laporan.edit');
+        Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
         Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
         Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
         Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');

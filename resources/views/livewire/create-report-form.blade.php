@@ -1,5 +1,6 @@
 {{-- File: resources/views/livewire/create-report-form.blade.php --}}
 <div>
+    <h1>DEBUG: FORM LIVEWIRE MUNCUL!</h1>
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Form Laporan Hasil Sidak</h5>
@@ -18,7 +19,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-        
+
 
             <form wire:submit.prevent="saveReport">
                 <h6 class="mb-3 text-muted">A. Informasi Umum</h6>
