@@ -18,7 +18,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-        
+
 
             <form wire:submit.prevent="saveReport">
                 <h6 class="mb-3 text-muted">A. Informasi Umum</h6>

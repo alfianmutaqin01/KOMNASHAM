@@ -1,11 +1,11 @@
-@extends('dashboard')
+{{-- File: resources/views/admin/users/index.blade.php --}}
+@extends('dashboard') {{-- Menggunakan layout dashboard utama --}}
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">Edit Laporan Hasil Sidak #{{ $report->id }}</h5>
+            <h5 class="mb-0">Manajemen Pengguna</h5>
         </div>
-
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <livewire:create-report-form :report="$report" />
+
+            <livewire:user-table />
         </div>
     </div>
 @endsection

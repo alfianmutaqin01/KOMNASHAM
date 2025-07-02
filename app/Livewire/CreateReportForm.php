@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 
 class CreateReportForm extends Component
 {
-    protected $layout = 'dashboard';
     public Report $report;
 
     // Deklarasi properti lainnya tetap sama
@@ -95,9 +94,9 @@ class CreateReportForm extends Component
     public function mount(?Report $report = null)
     {
         if ($report && $report->exists) {
-            $this->report = $report;
-            $this->fill($report->toArray());
-            $this->tanggal_sidak = $report->tanggal_sidak->format('Y-m-d');
+            $this->report = $report; 
+            $this->fill($report->toArray()); 
+            $this->tanggal_sidak = $this->report->tanggal_sidak->format('Y-m-d'); 
         } else {
             $this->report = new Report();
             $this->tanggal_sidak = Carbon::now()->format('Y-m-d');

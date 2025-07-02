@@ -18,6 +18,7 @@
 
     @livewireStyles
     @stack('styles')
+
 </head>
 
 <body>
@@ -25,17 +26,17 @@
     <div class="page-content">
         <div class="content-wrapper">
             <div class="content-inner">
-                <div class="content d-flex justify-content-center align-items-center">
+                <div class="content d-flex justify-content-center align-items-center min-vh-100">
 
                     <form class="login-form" method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="card mb-0">
+                        <div class="card mb-0 shadow">
                             <div class="card-body">
 
                                 <div class="text-center mb-5">
                                     <a href="{{ route('dashboard') }}" class="position-absolute top-0 start-50 translate-middle-x mt-2">
-                                        <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}" alt="Komnas HAM Logo Icon" class="img-fluid" style="width: 200px; height: auto;">
+                                        <img src="{{ asset('limitless4.0/assets/images/komnasham2.png') }}" alt="Komnas HAM Logo" class="img-fluid" style="width: 200px; height: auto;">
                                     </a>
                                 </div>
 
@@ -46,6 +47,7 @@
 
                                 <x-validation-errors class="mb-4" />
 
+                                {{-- Input Email --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="email">Email</label>
                                     <div class="form-control-feedback form-control-feedback-start">
@@ -57,22 +59,22 @@
                                     <x-input-error for="email" class="mt-2" />
                                 </div>
 
+                                {{-- Input Password --}}
                                 <div class="mb-3">
                                     <label class="form-label" for="password">Kata Sandi</label>
-                                    {{-- PERBAIKI: STRUKTUR DIV UNTUK ICON --}}
-                                    <div class="form-control-feedback form-control-feedback-start position-relative"> {{-- Tambah position-relative --}}
+                                    <div class="form-control-feedback form-control-feedback-start position-relative">
                                         <input type="password" class="form-control" placeholder="•••••••••••" id="password" name="password" required autocomplete="current-password">
                                         <div class="form-control-feedback-icon">
                                             <i class="ph-lock text-muted"></i>
                                         </div>
-                                        {{-- PINDAHKAN ICON MATA DI SINI AGAR BERADA DALAM DIV YANG SAMA DENGAN INPUT --}}
-                                        <div class="form-control-feedback-icon-end position-absolute end-0 top-50 translate-middle-y me-3" id="togglePasswordVisibility" style="cursor: pointer;"> {{-- Ganti kelas & tambah positioning --}}
+                                        <div class="form-control-feedback-icon-end position-absolute end-0 top-50 translate-middle-y me-3" id="togglePasswordVisibility">
                                             <i class="ph-eye text-muted"></i>
                                         </div>
                                     </div>
                                     <x-input-error for="password" class="mt-2" />
                                 </div>
 
+                                {{-- Remember Me dan Lupa Password --}}
                                 <div class="mb-3 d-flex align-items-center justify-content-between">
                                     <label class="form-check form-check-inline">
                                         <input type="checkbox" name="remember" id="remember_me" class="form-check-input">
@@ -84,16 +86,19 @@
                                     @endif
                                 </div>
 
+                                {{-- Tombol Login --}}
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-outline-primary w-100">Masuk</button>
                                 </div>
 
                             </div>
                         </div>
+
                     </form>
 
                 </div>
 
+                {{-- Footer --}}
                 <div class="navbar navbar-sm navbar-footer border-top">
                     <div class="container-fluid">
                         <span>&copy; {{ date('Y') }} Komnas HAM</span>
@@ -110,7 +115,7 @@
     @livewireScripts
     @stack('scripts')
 
-    {{-- SCRIPT JAVASCRIPT UNTUK TOGGLE PASSWORD (TETAP SAMA) --}}
+    {{-- Toggle Password Script --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const passwordField = document.getElementById('password');
