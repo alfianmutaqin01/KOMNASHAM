@@ -107,7 +107,7 @@
                 <li class="nav-item">
                     <a href="{{ route('komisioner.surat.cetak') }}" class="nav-link">
                         <i class="ph-printer"></i>
-                        <span>Cetak Surat</span>
+                        <span>Cetak Surat Tugas</span>
                     </a>
                 </li>
             </ul>

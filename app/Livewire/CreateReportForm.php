@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 
 class CreateReportForm extends Component
 {
-    public Report $report;
+    public ?Report $report = null;
 
     // Deklarasi properti lainnya tetap sama
     public $tanggal_sidak;
@@ -92,16 +92,18 @@ class CreateReportForm extends Component
     ];
 
     public function mount(?Report $report = null)
-    {
-        if ($report && $report->exists) {
-            $this->report = $report; 
-            $this->fill($report->toArray()); 
-            $this->tanggal_sidak = $this->report->tanggal_sidak->format('Y-m-d'); 
-        } else {
-            $this->report = new Report();
-            $this->tanggal_sidak = Carbon::now()->format('Y-m-d');
-        }
+{
+    if ($report && $report->exists) {
+        $this->report = $report; 
+        $this->fill($report->toArray()); 
+        $this->tanggal_sidak = $this->report->tanggal_sidak->format('Y-m-d'); 
+    } else {
+        $this->report = new Report(); // Tidak akan error karena sudah dicegah di Blade
+        $this->tanggal_sidak = Carbon::now()->format('Y-m-d');
     }
+}
+
+
 
     public function saveReport($submitAndPrint = false)
     {

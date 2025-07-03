@@ -41,11 +41,16 @@ Route::middleware([
 
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
-        Route::get('/laporan/baru', function () {return view('komisioner.laporan.create');
-        })->name('laporan.baru');
+        Route::get('/laporan/baru', function () {
+    return view('komisioner.laporan.create');
+})->name('laporan.baru');
+
+Route::get('/laporan/{report}/edit', function (\App\Models\Report $report) {
+    return view('komisioner.laporan.create', compact('report'));
+})->name('laporan.edit');
+
         Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
-        Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
         Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
         Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
         Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');
@@ -53,25 +58,25 @@ Route::middleware([
         Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); 
         
         Route::prefix('kegiatan')->name('kegiatan.')->group(function () {
-    // Buat Laporan Kegiatan
-    Route::get('/baru', function () {
-        return view('komisioner.kegiatan.create');
-    })->name('baru');
+            // Buat Laporan Baru
+Route::get('/baru', function () {
+    return view('komisioner.kegiatan.create');
+})->name('baru');
 
-    // Riwayat Laporan Kegiatan
-    Route::get('/riwayat', [ActivityReportController::class, 'history'])->name('riwayat');
+// Edit Laporan (panggil view yang sama)
+Route::get('/{activityReport}/edit', function (\App\Models\ActivityReport $activityReport) {
+    return view('komisioner.kegiatan.create', compact('activityReport'));
+})->name('edit');
 
-    // Cetak PDF Laporan Kegiatan
-    Route::get('/{activityReport}/print', [ActivityReportController::class, 'printPdf'])->name('print');
+// Cetak PDF
+Route::get('/{activityReport}/print', [ActivityReportController::class, 'printPdf'])->name('print');
 
-    // Edit Laporan Kegiatan
-    Route::get('/{activityReport}/edit', function () {
-        return view('komisioner.kegiatan.create');
-    })->name('edit');
+// Riwayat
+Route::get('/riwayat', [ActivityReportController::class, 'history'])->name('riwayat');
 
-    // Hapus Laporan Kegiatan
-    Route::delete('/{activityReport}', [ActivityReportController::class, 'destroy'])->name('destroy');
+// Hapus
+Route::delete('/{activityReport}', [ActivityReportController::class, 'destroy'])->name('destroy');
+
 });
-
     });
 });

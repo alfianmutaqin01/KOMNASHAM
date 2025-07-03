@@ -20,21 +20,24 @@ class ActivityReportController extends Controller
 
     // Method untuk menampilkan riwayat laporan kegiatan
     public function history()
-    {
-        // Otorisasi: Hanya user dengan peran 'komisioner' atau 'admin' yang bisa melihat
-        // Sesuaikan dengan logic peran Anda
-        if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('komisioner')) {
-            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
-        }
-
-        if (auth()->user()->hasRole('admin')) {
-            $activityReports = ActivityReport::latest()->get(); // Admin melihat semua
-        } else {
-            $activityReports = ActivityReport::where('user_id', auth()->id())->latest()->get(); // Komisioner melihat laporannya sendiri
-        }
-
-        return view('komisioner.activity_reports.history', compact('activityReports'));
+{
+    // Pastikan user sudah login
+    if (!auth()->check()) {
+        abort(403, 'Anda harus login untuk mengakses halaman ini.');
     }
+
+    // Ambil data sesuai role
+    if (auth()->user()->hasRole('admin')) {
+        // Admin bisa melihat semua laporan
+        $activityReports = ActivityReport::latest()->get();
+    } else {
+        // Komisioner dan user biasa hanya melihat laporan miliknya
+        $activityReports = ActivityReport::where('user_id', auth()->id())->latest()->get();
+    }
+
+    return view('komisioner.activity_reports.history', compact('activityReports'));
+}
+
 
     // Method untuk menampilkan form edit laporan kegiatan (GET request)
     public function edit(ActivityReport $activityReport)
@@ -43,9 +46,32 @@ class ActivityReportController extends Controller
         if (auth()->id() !== $activityReport->user_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-        // Mengembalikan Livewire Page Component untuk form edit
-        return \App\Livewire\CreateActivityReportForm::mount($activityReport); // Mengacu langsung ke kelas Livewire Component
+        return view('komisioner.activity_reports.edit', compact('activityReport'));
     }
+
+    public function update(Request $request, ActivityReport $activityReport)
+{
+    if (auth()->id() !== $activityReport->user_id && !auth()->user()->hasRole('admin')) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $validated = $request->validate([
+        'nama_kegiatan' => 'required|string|max:255',
+        'tanggal_mulai' => 'required|date',
+        'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        'lokasi_kegiatan' => 'required|string|max:255',
+        'tujuan_kegiatan' => 'required|string',
+        'pihak_terlibat' => 'nullable|string',
+        'deskripsi_singkat' => 'required|string',
+        'hasil_kegiatan' => 'required|string',
+        'tindak_lanjut' => 'nullable|string',
+        'permasalahan_tantangan' => 'nullable|string',
+    ]);
+
+    $activityReport->update($validated);
+
+    return redirect()->route('komisioner.kegiatan.riwayat')->with('success', 'Laporan kegiatan berhasil diperbarui!');
+}
 
     // Method untuk menghapus laporan kegiatan
     public function destroy(ActivityReport $activityReport)

@@ -1,28 +1,27 @@
-@extends('dashboard')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="card">
         <div class="card-header">
-            @if (auth()->user()->hasRole('admin'))
+            <?php if(auth()->user()->hasRole('admin')): ?>
                 <div class="alert alert-primary">Anda melihat semua laporan.</div>
-            @else
+            <?php else: ?>
                 <div class="alert alert-info">Anda melihat laporan yang Anda buat.</div>
-            @endif
+            <?php endif; ?>
 
             <h5 class="mb-0">Riwayat Laporan Sidak</h5>
         </div>
         <div class="card-body">
-            {{-- Menampilkan pesan sukses dari session (misalnya setelah update/delete) --}}
-            @if (session('success'))
+            
+            <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
+                    <?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if ($reports->isEmpty())
+            <?php if($reports->isEmpty()): ?>
                 <div class="alert alert-info">Belum ada laporan yang dibuat.</div>
-            @else
+            <?php else: ?>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -36,40 +35,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($reports as $report)
+                            <?php $__currentLoopData = $reports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $report->tanggal_sidak->format('d/m/Y') }}</td>
-                                    <td>{{ $report->lokasi }}</td>
-                                    <td>{{ $report->instansi_dikunjungi }}</td>
+                                    <td class="text-center"><?php echo e($loop->iteration); ?></td>
+                                    <td><?php echo e($report->tanggal_sidak->format('d/m/Y')); ?></td>
+                                    <td><?php echo e($report->lokasi); ?></td>
+                                    <td><?php echo e($report->instansi_dikunjungi); ?></td>
                                     <td class="text-center">
                                         <span
-                                            class="badge bg-{{ $report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success') }}">
-                                            {{ ucfirst($report->status) }}
+                                            class="badge bg-<?php echo e($report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success')); ?>">
+                                            <?php echo e(ucfirst($report->status)); ?>
+
                                         </span>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-1">
-                                            {{-- PERBAIKI: Menggunakan nama rute yang konsisten 'komisioner.reports.print' --}}
-                                            <a href="{{ route('komisioner.reports.print', $report) }}"
+                                            
+                                            <a href="<?php echo e(route('komisioner.reports.print', $report)); ?>"
                                                 class="btn btn-sm btn-outline-info" target="_blank" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="Cetak Laporan">
                                                 <i class="ph-printer"></i>
                                             </a>
 
-                                            {{-- Tombol Edit --}}
-                                            <a href="{{ route('komisioner.laporan.edit', $report) }}"
+                                            
+                                            <a href="<?php echo e(route('komisioner.laporan.edit', $report)); ?>"
                                                 class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="Edit Laporan">
                                                 <i class="ph-pencil"></i>
                                             </a>
 
-                                            {{-- Tombol Hapus (dengan form DELETE method) --}}
-                                            <form action="{{ route('komisioner.laporan.destroy', $report) }}" method="POST"
+                                            
+                                            <form action="<?php echo e(route('komisioner.laporan.destroy', $report)); ?>" method="POST"
                                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini? Ini tidak dapat dibatalkan!');"
                                                 class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Hapus Laporan">
                                                     <i class="ph-trash"></i>
@@ -78,15 +78,15 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 
-    @push('scripts')
+    <?php $__env->startPush('scripts'); ?>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -95,5 +95,6 @@
                 });
             });
         </script>
-    @endpush
-@endsection
+    <?php $__env->stopPush(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/komisioner/reports/history.blade.php ENDPATH**/ ?>
