@@ -126,12 +126,12 @@
                         Profil Saya
                     </a>
                     <div class="dropdown-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}" x-data>
+                    <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
                         @csrf
-                        <a href="{{ route('logout') }}" class="dropdown-item" @click.prevent="$root.submit();">
+                        <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0; margin: 0;">
                             <i class="ph-sign-out me-2"></i>
                             Keluar
-                        </a>
+                        </button>
                     </form>
                 </div>
             </li>
