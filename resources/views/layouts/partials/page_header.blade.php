@@ -2,7 +2,7 @@
 
     <div class="collapse d-lg-block my-lg-auto ms-lg-auto" id="page_header">
         <div class="d-flex">
-        <div class="breadcrumb py-2">
+        <div class="breadcrumb py-2 ms-3">
             <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
             <a href="#" class="breadcrumb-item">Dashboard</a>
             <span
