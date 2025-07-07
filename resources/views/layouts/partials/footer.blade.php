@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <span>&copy; 2025 <a href="https://komnasham.go.id" target="_blank">Komnas HAM</a></span>
 
-        <ul class="nav">
+        {{-- <ul class="nav">
             <li class="nav-item">
                 <a href="#" class="navbar-nav-link navbar-nav-link-icon rounded">
                     <div class="d-flex align-items-center mx-md-1">
@@ -11,11 +11,11 @@
                     </div>
                 </a>
             </li>
-        </ul>
+        </ul> --}}
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="demo_config">
+{{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="demo_config">
     <div class="position-absolute top-50 end-100 visible">
         <button type="button" class="btn btn-outline-primary btn-icon translate-middle-y rounded-end-0"
             data-bs-toggle="offcanvas" data-bs-target="#demo_config">
@@ -74,4 +74,4 @@
             </label>
         </div>
     </div>
-</div>
+</div> --}}
