@@ -1,18 +1,18 @@
 <div>
-    <div class="row mb-3">
-        <div class="col-md-4">
+    <div class="row mb-3 g-2 align-items-center">
+        <div class="col-12 col-md-4">
             <input type="text" wire:model.live="search" class="form-control rounded-3" placeholder="Cari pengguna...">
         </div>
-        <div class="col-md-8 text-end">
-            <button type="button" wire:click="createUser" class="btn btn-outline-primary">Tambah Pengguna Baru</button>
+        <div class="col-12 col-md-8 text-md-end">
+            <button type="button" wire:click="createUser" class="btn btn-outline-primary w-100 w-md-auto">Tambah Pengguna Baru</button>
         </div>
     </div>
 
     @if ($showUserForm)
         <div class="card mb-4">
-            <div class="card-header bg-light">
+            <div class="card-header bg-light d-flex flex-wrap justify-content-between align-items-start align-items-md-center gap-2">
                 <h6 class="mb-0">{{ $isEditMode ? 'Edit Pengguna' : 'Tambah Pengguna Baru' }}</h6>
-                <button type="button" class="btn-close" wire:click="resetForm"></button>
+                <button type="button" class="btn-close ms-auto" wire:click="resetForm"></button>
             </div>
             <div class="card-body">
                 <form wire:submit.prevent="saveUser">
@@ -96,7 +96,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            {{ $user->roles->pluck('name')->first() ? ucfirst($user->roles->pluck('name')->first()) : 'N/A' }}
+                            {{ $user->roles->first() ? ucfirst($user->roles->first()->name) : 'N/A' }}
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-1">

@@ -68,7 +68,7 @@ class UserTable extends Component
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role; 
+        $this->role = $user->roles->first()->name ?? ''; 
 
         $this->password = '';
         $this->password_confirmation = '';
@@ -81,7 +81,6 @@ class UserTable extends Component
         $data = [
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
         ];
 
         if (!empty($this->password)) {
