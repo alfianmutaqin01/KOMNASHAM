@@ -120,7 +120,7 @@ unset($__errorArgs, $__bag); ?>">
                     <div class="text-end">
                         <button type="button" wire:click="resetForm" class="btn btn-light me-2">Batal</button>
                         <button type="submit"
-                            class="btn btn-primary"><?php echo e($isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna'); ?></button>
+                            class="btn btn-outline-primary"><?php echo e($isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna'); ?></button>
                     </div>
                 </form>
             </div>

@@ -46,6 +46,14 @@
                 }
             });
         });
+        document.addEventListener('livewire:navigated', function () { // Atau 'DOMContentLoaded' jika ini bukan komponen halaman
+        window.addEventListener('open-pdf', event => {
+            if (event.detail.url) {
+                window.open(event.detail.url, '_blank');
+            }
+        });
+    });
+
     </script>
 </body>
 

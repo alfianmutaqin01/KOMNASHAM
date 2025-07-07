@@ -52,6 +52,13 @@
                         <span>Manajemen Pengguna</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.settings.letter') }}"
+                        class="nav-link {{ request()->routeIs('admin.settings.letter') ? 'active' : '' }}">
+                        <i class="ph-gear-six"></i> {{-- Icon pengaturan --}}
+                        <span>Pengaturan Surat Tugas</span>
+                    </a>
+                </li>
                 @endrole
 
                 <li class="nav-item-header">
@@ -76,7 +83,8 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('komisioner.laporan.riwayat') }}"
-                                class="nav-link {{ request()->routeIs('komisioner.laporan.riwayat') || request()->routeIs('komisioner.laporan.edit') ? 'active' : '' }}"> {{-- Tambah active untuk edit --}}
+                                class="nav-link {{ request()->routeIs('komisioner.laporan.riwayat') || request()->routeIs('komisioner.laporan.edit') ? 'active' : '' }}">
+                                {{-- Tambah active untuk edit --}}
                                 Riwayat Laporan Sidak
                             </a>
                         </li>
@@ -92,23 +100,40 @@
                     </a>
                     <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.kegiatan.*') ? 'show' : '' }}">
                         <li class="nav-item">
-                            <a href="{{ route('komisioner.kegiatan.baru') }}" class="nav-link {{ request()->routeIs('komisioner.kegiatan.baru') ? 'active' : '' }}">
+                            <a href="{{ route('komisioner.kegiatan.baru') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.kegiatan.baru') ? 'active' : '' }}">
                                 Buat Laporan Kegiatan
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('komisioner.kegiatan.riwayat') }}" class="nav-link {{ request()->routeIs('komisioner.kegiatan.riwayat') || request()->routeIs('komisioner.kegiatan.edit') ? 'active' : '' }}">
+                            <a href="{{ route('komisioner.kegiatan.riwayat') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.kegiatan.riwayat') || request()->routeIs('komisioner.kegiatan.edit') ? 'active' : '' }}">
                                 Riwayat Laporan Kegiatan
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('komisioner.surat.cetak') }}" class="nav-link">
-                        <i class="ph-printer"></i>
-                        <span>Cetak Surat Tugas</span>
+                <li
+                    class="nav-item nav-item-submenu {{ request()->routeIs('komisioner.surat.*') ? 'nav-item-expanded nav-item-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="ph-printer"></i> {{-- Icon printer untuk cetak surat --}}
+                        <span>Manajemen Surat Tugas</span>
                     </a>
+                    <ul class="nav-group-sub collapse {{ request()->routeIs('komisioner.surat.*') ? 'show' : '' }}">
+                        <li class="nav-item">
+                            <a href="{{ route('komisioner.surat.cetak') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.surat.cetak') ? 'active' : '' }}">
+                                Buat & Cetak Surat
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('komisioner.surat.riwayat') }}"
+                                class="nav-link {{ request()->routeIs('komisioner.surat.riwayat') || request()->routeIs('komisioner.surat.edit') ? 'active' : '' }}">
+                                Riwayat Surat Tugas
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -1,18 +1,4 @@
-{{-- 
-    Breadcrumb Component
-    
-    Usage example:
-    @include('backend.includes.breadcrumb', [
-        'title' => 'Dashboard',
-        'subtitle' => 'Overview',
-        'breadcrumbs' => [
-            ['name' => 'Home', 'url' => route('dashboard')],
-            ['name' => 'Dashboard', 'active' => true]
-        ]
-    ])
---}}
 
-<!-- Page header -->
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="d-flex">
