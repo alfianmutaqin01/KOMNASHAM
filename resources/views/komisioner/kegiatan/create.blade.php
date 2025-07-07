@@ -1,5 +1,9 @@
 @extends('dashboard')
 
 @section('content')
-    @livewire('create-activity-report-form')
+    @if (isset($activityReport))
+        @livewire('create-activity-report-form', ['activityReport' => $activityReport])
+    @else
+        @livewire('create-activity-report-form')
+    @endif
 @endsection

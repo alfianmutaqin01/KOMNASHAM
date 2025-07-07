@@ -1,12 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route; 
-use Illuminate\Support\Facades\File; 
-use Illuminate\Support\Facades\Auth; 
-use App\Http\Controllers\ReportController; 
-use App\Http\Controllers\Admin\UserController; 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Komisioner\ActivityReportController;
 use App\Livewire\CreateActivityReportForm;
+use App\Http\Controllers\Admin\LetterSettingController;
+use App\Livewire\Admin\LetterSettings;
+use App\Http\Controllers\Komisioner\AssignmentLetterController;
+use App\Livewire\CreateAssignmentLetterForm;
 
 // Route untuk dokumentasi template
 Route::get('template', function () {
@@ -37,41 +41,51 @@ Route::middleware([
         return view('profile.show');
     })->name('profile.show');
 
+    // Manajemen Pengguna Admin
     Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/settings/letter', [LetterSettingController::class, 'index'])->name('settings.letter');
+    });
 
     // Group route khusus Komisioner
     Route::prefix('komisioner')->name('komisioner.')->group(function () {
-        Route::get('/laporan/baru', function () {return view('komisioner.laporan.create');
-        })->name('laporan.baru');
-        Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
 
-        Route::get('/laporan/{report}/edit', [ReportController::class, 'edit'])->name('laporan.edit');
+        // Laporan
+        Route::get('/laporan/baru', function () {
+            return view('komisioner.laporan.create');
+        })->name('laporan.baru');
+
+        Route::get('/laporan/{report}/edit', function (\App\Models\Report $report) {
+            return view('komisioner.laporan.create', compact('report'));
+        })->name('laporan.edit');
+
+        Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('laporan.riwayat');
         Route::put('/laporan/{report}', [ReportController::class, 'update'])->name('laporan.update');
         Route::delete('/laporan/{report}', [ReportController::class, 'destroy'])->name('laporan.destroy');
-        Route::get('/surat/cetak', function () {return view('komisioner.surat.print');})->name('surat.cetak');
+        Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print');
 
-        Route::get('/reports/{report}/print', [ReportController::class, 'printPdf'])->name('reports.print'); 
-        
+        // Surat Tugas
+        Route::prefix('surat')->name('surat.')->group(function () {
+            Route::get('/cetak', [AssignmentLetterController::class, 'create'])->name('cetak');
+            Route::get('/{assignmentLetter}/cetak-pdf', [AssignmentLetterController::class, 'printPdf'])->name('print_pdf');
+            Route::get('/riwayat', [AssignmentLetterController::class, 'history'])->name('riwayat');
+            Route::get('/{assignmentLetter}/edit', [AssignmentLetterController::class, 'edit'])->name('edit');
+            Route::delete('/{assignmentLetter}', [AssignmentLetterController::class, 'destroy'])->name('destroy');
+        });
+
+        // Kegiatan
         Route::prefix('kegiatan')->name('kegiatan.')->group(function () {
-    // Buat Laporan Kegiatan
-    Route::get('/baru', function () {
-        return view('komisioner.kegiatan.create');
-    })->name('baru');
 
-    // Riwayat Laporan Kegiatan
-    Route::get('/riwayat', [ActivityReportController::class, 'history'])->name('riwayat');
-
-    // Cetak PDF Laporan Kegiatan
-    Route::get('/{activityReport}/print', [ActivityReportController::class, 'printPdf'])->name('print');
-
-    // Edit Laporan Kegiatan
-    Route::get('/{activityReport}/edit', function () {
-        return view('komisioner.kegiatan.create');
-    })->name('edit');
-
-    // Hapus Laporan Kegiatan
-    Route::delete('/{activityReport}', [ActivityReportController::class, 'destroy'])->name('destroy');
-});
-
+            Route::get('/baru', function () {
+                return view('komisioner.kegiatan.create');
+            })->name('baru');
+            Route::get('/{activityReport}/edit', function (\App\Models\ActivityReport $activityReport) {
+                return view('komisioner.kegiatan.create', compact('activityReport'));
+            })->name('edit');
+            Route::get('/{activityReport}/print', [ActivityReportController::class, 'printPdf'])->name('print');
+            Route::get('/riwayat', [ActivityReportController::class, 'history'])->name('riwayat');
+            Route::delete('/{activityReport}', [ActivityReportController::class, 'destroy'])->name('destroy');
+        });
     });
 });

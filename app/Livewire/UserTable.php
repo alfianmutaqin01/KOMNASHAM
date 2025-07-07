@@ -6,17 +6,19 @@ use Livewire\Component;
 use Livewire\WithPagination; 
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserTable extends Component
 {
     use WithPagination;
 
     public $search = ''; 
-    public $perPage = 10; // Jumlah item per halaman
+    public $perPage = 10; 
     public $sortField = 'name'; 
     public $sortAsc = true; 
 
-    // Properti untuk form tambah/edit (akan diisi saat mode edit)
+    
     public $userId;
     public $name;
     public $email;
@@ -27,7 +29,6 @@ class UserTable extends Component
     public $showUserForm = false; 
     public $isEditMode = false; 
 
-    // Aturan validasi
     protected function rules()
     {
         return [
@@ -55,12 +56,11 @@ class UserTable extends Component
 
     public function createUser()
     {
-        $this->resetForm(); // Bersihkan form
+        $this->resetForm();
         $this->isEditMode = false;
         $this->showUserForm = true;
     }
 
-    // Metode untuk menampilkan form edit pengguna
     public function editUser(User $user) 
     {
         $this->isEditMode = true;
@@ -74,7 +74,6 @@ class UserTable extends Component
         $this->password_confirmation = '';
     }
 
-    // Metode untuk menyimpan atau memperbarui pengguna
     public function saveUser()
     {
         $this->validate();
@@ -98,7 +97,6 @@ class UserTable extends Component
             session()->flash('success', 'Pengguna baru berhasil ditambahkan!');
         }
 
-        // Sync role jika menggunakan Spatie Permission
         if (isset($this->role) && !empty($this->role)) {
              $user->syncRoles([$this->role]);
         }
@@ -108,7 +106,6 @@ class UserTable extends Component
         $this->resetForm();
     }
 
-    // Metode untuk menghapus pengguna
     public function deleteUser(User $user)
     {
         
@@ -121,7 +118,6 @@ class UserTable extends Component
         session()->flash('success', 'Pengguna berhasil dihapus!');
     }
 
-    // Metode untuk mereset properti form
     public function resetForm()
     {
         $this->resetValidation(); 
@@ -137,7 +133,6 @@ class UserTable extends Component
         ]);
     }
 
-    // Metode render komponen
     public function render()
     {
         $users = User::search($this->search) 

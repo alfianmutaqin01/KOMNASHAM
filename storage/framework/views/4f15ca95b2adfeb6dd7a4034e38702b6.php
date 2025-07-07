@@ -74,4 +74,4 @@
             </label>
         </div>
     </div>
-</div>
+</div><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/layouts/partials/footer.blade.php ENDPATH**/ ?>

@@ -29,7 +29,6 @@
                         @error('email') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
 
-                    {{-- Input Role --}}
                     <div class="mb-3">
                         <label for="role" class="form-label">Peran</label>
                         <select wire:model="role" id="role" class="form-select @error('role') is-invalid @enderror">
@@ -57,7 +56,7 @@
                     <div class="text-end">
                         <button type="button" wire:click="resetForm" class="btn btn-light me-2">Batal</button>
                         <button type="submit"
-                            class="btn btn-primary">{{ $isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna' }}</button>
+                            class="btn btn-outline-primary">{{ $isEditMode ? 'Simpan Perubahan' : 'Tambah Pengguna' }}</button>
                     </div>
                 </form>
             </div>

@@ -7,8 +7,8 @@
         </div>
 
         <div class="navbar-brand flex-1 flex-lg-0">
-            <a href="{{ route('dashboard') }}" class="d-inline-flex align-items-center">
-                <img src="{{ asset('limitless4.0/assets/images/komnasham.png') }}" alt="Komnas HAM Logo Icon" class="img-fluid" style="width: 200px; height: auto;">
+            <a href="<?php echo e(route('dashboard')); ?>" class="d-inline-flex align-items-center">
+                <img src="<?php echo e(asset('limitless4.0/assets/images/komnasham.png')); ?>" alt="Komnas HAM Logo Icon" class="img-fluid" style="width: 200px; height: auto;">
             </a>
         </div>
 
@@ -105,28 +105,28 @@
             <li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
                 <a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
                     <div class="status-indicator-container">
-                        <img src="{{ Auth::user()->profile_photo_url }}" class="w-32px h-32px rounded-pill"
-                            alt="{{ Auth::user()->name }}">
+                        <img src="<?php echo e(Auth::user()->profile_photo_url); ?>" class="w-32px h-32px rounded-pill"
+                            alt="<?php echo e(Auth::user()->name); ?>">
                         <span class="status-indicator bg-success"></span>
                     </div>
-                    <span class="d-none d-lg-inline-block mx-lg-2">{{ Auth::user()->name }}</span>
+                    <span class="d-none d-lg-inline-block mx-lg-2"><?php echo e(Auth::user()->name); ?></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a href="{{ route('profile.show') }}" class="dropdown-item">
+                    <a href="<?php echo e(route('profile.show')); ?>" class="dropdown-item">
                         <i class="ph-user-circle me-2"></i>
                         Profil Saya
                     </a>
                     <div class="dropdown-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
-                        @csrf
-                        <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0; margin: 0;">
+                    <form method="POST" action="<?php echo e(route('logout')); ?>" x-data>
+                        <?php echo csrf_field(); ?>
+                        <a href="<?php echo e(route('logout')); ?>" class="dropdown-item" @click.prevent="$root.submit();">
                             <i class="ph-sign-out me-2"></i>
                             Keluar
-                        </button>
+                        </a>
                     </form>
                 </div>
             </li>
         </ul>
     </div>
-</div>
+</div><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/layouts/partials/navbar.blade.php ENDPATH**/ ?>
