@@ -24,10 +24,9 @@ class CreateActivityReportForm extends Component
     public $hasil_kegiatan;
     public $tindak_lanjut;
     public $permasalahan_tantangan;
-    public $new_lampiran = []; // Untuk file yang akan diunggah
-    public $existing_lampiran = []; // Untuk menampilkan lampiran yang sudah ada (edit mode)
+    public $new_lampiran = []; 
+    public $existing_lampiran = []; 
 
-    // Aturan validasi
     protected $rules = [
         'jabatan_komisioner' => 'required|string|max:255',
         'nama_kegiatan' => 'required|string|max:255',
@@ -43,7 +42,6 @@ class CreateActivityReportForm extends Component
         'new_lampiran.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx|max:5120', // Maks 5MB per file
     ];
 
-    // Pesan validasi kustom (Opsional, tapi direkomendasikan)
     protected $messages = [
         'jabatan_komisioner.required' => 'Jabatan komisioner wajib diisi.',
         'nama_kegiatan.required' => 'Nama kegiatan wajib diisi.',
@@ -62,7 +60,6 @@ class CreateActivityReportForm extends Component
         if ($activityReport && $activityReport->exists) {
             $this->activityReport = $activityReport;
             $this->fill($activityReport->toArray());
-            // Pastikan format tanggal sesuai input HTML
             $this->jabatan_komisioner = $activityReport->jabatan_komisioner;
             $this->tanggal_mulai = $this->activityReport->tanggal_mulai->format('Y-m-d\TH:i'); // HTML datetime-local
             $this->tanggal_selesai = $this->activityReport->tanggal_selesai->format('Y-m-d\TH:i'); // HTML datetime-local
@@ -74,12 +71,10 @@ class CreateActivityReportForm extends Component
         }
     }
 
-    // Metode untuk menyimpan atau memperbarui laporan
     public function saveReport($submitAndPrint = false)
     {
         $this->validate();
 
-        // Handle file uploads
         $uploadedFilePaths = [];
         if (!empty($this->new_lampiran)) {
             foreach ($this->new_lampiran as $file) {
@@ -107,12 +102,11 @@ class CreateActivityReportForm extends Component
             Session::flash('success', 'Laporan kegiatan berhasil diperbarui!');
         } else {
             $data['user_id'] = auth()->id();
-            $data['status'] = 'submitted'; // Default status
+            $data['status'] = 'submitted'; 
             $this->activityReport = ActivityReport::create($data); // Assign hasil create ke properti
             Session::flash('success', 'Laporan kegiatan berhasil disimpan!');
         }
 
-        // Logika pengalihan/aksi setelah menyimpan
         if ($submitAndPrint) {
             Session::flash('success', 'Laporan kegiatan berhasil disimpan dan PDF akan dicetak!');
             $this->dispatch('open-pdf', url: route('komisioner.kegiatan.print', ['activityReport' => $this->activityReport->id]));
@@ -125,7 +119,6 @@ class CreateActivityReportForm extends Component
         }
     }
 
-    // Metode untuk menghapus lampiran individual (opsional, tapi berguna)
     public function removeLampiran($index)
     {
         array_splice($this->existing_lampiran, $index, 1);
@@ -133,12 +126,11 @@ class CreateActivityReportForm extends Component
         Session::flash('info', 'Lampiran berhasil dihapus!');
     }
 
-    // Metode untuk mereset properti form
     public function resetForm()
     {
         $this->resetValidation();
         $this->reset([
-            'activityReport', // Reset objek model juga
+            'activityReport', 
             'nama_kegiatan',
             'tanggal_mulai',
             'tanggal_selesai',

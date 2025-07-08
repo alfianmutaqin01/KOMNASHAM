@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Komisioner;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\AssignmentLetter;
 use App\Models\LetterSetting;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -67,15 +66,14 @@ class AssignmentLetterController extends Controller
         ];
 
         $data = [
-            'letter' => $assignmentLetter, 
+            'letter' => $assignmentLetter,
             'user' => $assignmentLetter->user,
             'currentDate' => Carbon::now()->translatedFormat('d F Y'),
             'settings' => $settings,
         ];
 
         $pdf = Pdf::loadView('komisioner.assignment_letters.print', $data);
-
-        $safeFileName = str_replace(['/', '\\'], '_', $assignmentLetter->nomor_surat);
+        $safeFileName = str_replace(['/', '\\'], '_', $assignmentLetter->nomor_surat); // Membersihkan nama file
         return $pdf->download('Surat_Tugas_' . $safeFileName . '.pdf');
     }
 }
