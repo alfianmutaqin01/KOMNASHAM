@@ -32,7 +32,7 @@
                     @error('tanda_tangan_jabatan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                 </div>
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+                    <button type="submit" class="btn btn-outline-primary">Simpan Pengaturan</button>
                 </div>
             </form>
         </div>

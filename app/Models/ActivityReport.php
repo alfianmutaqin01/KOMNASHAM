@@ -11,6 +11,7 @@ class ActivityReport extends Model
 
     protected $fillable = [
         'user_id',
+        'jabatan_komisioner',
         'nama_kegiatan',
         'tanggal_mulai',
         'tanggal_selesai',

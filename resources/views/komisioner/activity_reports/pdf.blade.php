@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Laporan Kegiatan - Komnas HAM</title>
     <style>
@@ -9,14 +10,17 @@
             line-height: 1.5;
             color: #333;
         }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .header h3 {
             font-size: 14pt;
             margin-bottom: 5px;
         }
+
         .section-title {
             font-size: 12pt;
             font-weight: bold;
@@ -25,48 +29,61 @@
             border-bottom: 1px solid #ccc;
             padding-bottom: 5px;
         }
+
         ul {
             list-style: none;
             padding-left: 0;
             margin-bottom: 10px;
         }
+
         ul li {
             margin-bottom: 5px;
         }
+
         .item-label {
             font-weight: bold;
-            width: 25%; /* Sesuaikan lebar label */
+            width: 25%;
+            /* Sesuaikan lebar label */
             display: inline-block;
             vertical-align: top;
         }
+
         .item-value {
-            width: 70%; /* Sisa lebar */
+            width: 70%;
+            /* Sisa lebar */
             display: inline-block;
             vertical-align: top;
         }
+
         .footer {
             margin-top: 50px;
             text-align: right;
         }
+
         .footer p {
             margin-bottom: 5px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 15px;
         }
+
         table td {
             padding: 5px;
             vertical-align: top;
             border: 1px solid #ddd;
         }
+
         table td:first-child {
-            width: 30%; /* Lebar untuk label di tabel */
+            width: 30%;
+            /* Lebar untuk label di tabel */
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h3>LAPORAN KEGIATAN</h3>
@@ -82,7 +99,7 @@
         </tr>
         <tr>
             <td>Jabatan:</td>
-            <td>{{ $activityReport->user->roles->pluck('name')->first() ? ucfirst($activityReport->user->roles->pluck('name')->first()) : 'N/A' }}</td>
+            <td>{{ $activityReport->jabatan_komisioner ?? 'N/A' }}</td>
         </tr>
         <tr>
             <td>Tanggal Pelaporan:</td>
@@ -98,7 +115,8 @@
         </tr>
         <tr>
             <td>Tanggal & Waktu Kegiatan:</td>
-            <td>{{ $activityReport->tanggal_mulai->translatedFormat('d F Y H:i') }} - {{ $activityReport->tanggal_selesai->translatedFormat('d F Y H:i') }}</td>
+            <td>{{ $activityReport->tanggal_mulai->translatedFormat('d F Y H:i') }} -
+                {{ $activityReport->tanggal_selesai->translatedFormat('d F Y H:i') }}</td>
         </tr>
         <tr>
             <td>Lokasi Kegiatan:</td>
@@ -153,4 +171,5 @@
         </div>
     </div>
 </body>
+
 </html>
