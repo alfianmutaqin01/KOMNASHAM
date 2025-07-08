@@ -152,7 +152,10 @@ class CreateAssignmentLetterForm extends Component
 
         if ($submitAndPrint) {
             Session::flash('success', 'Surat tugas berhasil dibuat dan akan dicetak!');
-            $this->dispatch('open-pdf', url: route('komisioner.surat.cetak_pdf', ['assignmentLetter' => $this->assignmentLetter->id]));
+            $this->dispatch('open-pdf', url: route('komisioner.surat.print_pdf', [
+    'assignmentLetter' => $this->assignmentLetter->id
+]));
+
             $this->resetForm();
             return;
         } else {
