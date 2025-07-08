@@ -11,7 +11,6 @@
             <h5 class="mb-0">Riwayat Laporan Kegiatan</h5>
         </div>
         <div class="card-body">
-            {{-- Menampilkan pesan sukses/error dari session --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}

@@ -33,9 +33,10 @@
                         <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label" for="jabatan">Jabatan:</label>
-                        <input type="text" name="jabatan" id="jabatan" class="form-control"
-                            placeholder="Masukkan Jabatan" value="{{ old('jabatan') }}">
+                        <label class="form-label">Jabatan Komisioner:</label>
+                        <input type="text" wire:model="jabatan_komisioner" id="jabatan_komisioner"
+                            class="form-control @error('jabatan_komisioner') is-invalid @enderror">
+                        @error('jabatan_komisioner') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Tanggal Pelaporan:</label>

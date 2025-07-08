@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Session;
 class CreateActivityReportForm extends Component
 {
     use WithFileUploads; 
-    public ActivityReport $activityReport; // Properti untuk model laporan kegiatan
+    public ActivityReport $activityReport; 
 
-    // Properti untuk data form
+    public $jabatan_komisioner;
     public $nama_kegiatan;
     public $tanggal_mulai;
     public $tanggal_selesai;
@@ -29,6 +29,7 @@ class CreateActivityReportForm extends Component
 
     // Aturan validasi
     protected $rules = [
+        'jabatan_komisioner' => 'required|string|max:255',
         'nama_kegiatan' => 'required|string|max:255',
         'tanggal_mulai' => 'required|date',
         'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
@@ -44,6 +45,7 @@ class CreateActivityReportForm extends Component
 
     // Pesan validasi kustom (Opsional, tapi direkomendasikan)
     protected $messages = [
+        'jabatan_komisioner.required' => 'Jabatan komisioner wajib diisi.',
         'nama_kegiatan.required' => 'Nama kegiatan wajib diisi.',
         'tanggal_mulai.required' => 'Tanggal mulai wajib diisi.',
         'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai.',
@@ -61,6 +63,7 @@ class CreateActivityReportForm extends Component
             $this->activityReport = $activityReport;
             $this->fill($activityReport->toArray());
             // Pastikan format tanggal sesuai input HTML
+            $this->jabatan_komisioner = $activityReport->jabatan_komisioner;
             $this->tanggal_mulai = $this->activityReport->tanggal_mulai->format('Y-m-d\TH:i'); // HTML datetime-local
             $this->tanggal_selesai = $this->activityReport->tanggal_selesai->format('Y-m-d\TH:i'); // HTML datetime-local
             $this->existing_lampiran = $this->activityReport->lampiran ?? [];
@@ -85,6 +88,7 @@ class CreateActivityReportForm extends Component
         }
 
         $data = [
+            'jabatan_komisioner' => $this->jabatan_komisioner,
             'nama_kegiatan' => $this->nama_kegiatan,
             'tanggal_mulai' => $this->tanggal_mulai,
             'tanggal_selesai' => $this->tanggal_selesai,
@@ -95,7 +99,6 @@ class CreateActivityReportForm extends Component
             'hasil_kegiatan' => $this->hasil_kegiatan,
             'tindak_lanjut' => $this->tindak_lanjut,
             'permasalahan_tantangan' => $this->permasalahan_tantangan,
-            // Gabungkan lampiran lama dengan yang baru
             'lampiran' => array_merge($this->existing_lampiran, $uploadedFilePaths),
         ];
 

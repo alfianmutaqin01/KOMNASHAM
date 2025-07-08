@@ -8,61 +8,14 @@
 
         <div class="navbar-brand flex-1 flex-lg-0">
             <a href="{{ route('dashboard') }}" class="d-inline-flex align-items-center">
-                <img src="{{ asset('limitless4.0/assets/images/komnasham.png') }}" alt="Komnas HAM Logo Icon" class="img-fluid" style="width: 200px; height: auto;">
+                <img src="{{ asset('limitless4.0/assets/images/komnasham.png') }}" alt="Komnas HAM Logo Icon"
+                    class="img-fluid" style="width: 200px; height: auto;">
             </a>
         </div>
 
 
         <div class="navbar-collapse justify-content-center flex-lg-1 order-2 order-lg-1 collapse" id="navbar_search">
             <div class="navbar-search flex-fill position-relative mt-2 mt-lg-0 mx-lg-3">
-                <div class="form-control-feedback form-control-feedback-start flex-grow-1" data-color-theme="dark">
-                    <input type="text" class="form-control bg-transparent rounded-pill" placeholder="Cari..."
-                        data-bs-toggle="dropdown">
-                    <div class="form-control-feedback-icon">
-                        <i class="ph-magnifying-glass"></i>
-                    </div>
-                    <div class="dropdown-menu w-100" data-color-theme="light">
-                        <button type="button" class="dropdown-item">
-                            <div class="text-center w-32px me-3">
-                                <i class="ph-magnifying-glass"></i>
-                            </div>
-                            <span>Cari <span class="fw-bold">"..."</span> di mana saja</span>
-                        </button>
-
-                        <div class="dropdown-divider"></div>
-
-                        <div class="dropdown-menu-scrollable-lg">
-                            <div class="dropdown-header">
-                                Laporan
-                                <a href="#" class="float-end">
-                                    Lihat semua
-                                    <i class="ph-arrow-circle-right ms-1"></i>
-                                </a>
-                            </div>
-                            <div class="dropdown-item cursor-pointer">
-                                <div class="me-3">
-                                    <i
-                                        class="ph-file-text w-32px h-32px rounded-pill d-flex align-items-center justify-content-center text-primary"></i>
-                                </div>
-                                <div class="d-flex flex-column flex-grow-1">
-                                    <div class="fw-semibold">Laporan Pelanggaran <mark>HAM</mark> #123</div>
-                                    <span class="fs-sm text-muted">Pelanggaran hak sipil</span>
-                                </div>
-                                <div class="d-inline-flex">
-                                    <a href="#" class="text-body ms-2">
-                                        <i class="ph-info"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="#"
-                    class="navbar-nav-link align-items-center justify-content-center w-40px h-32px rounded-pill position-absolute end-0 top-50 translate-middle-y p-0 me-1"
-                    data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                    <i class="ph-faders-horizontal"></i>
-                </a>
 
                 <div class="dropdown-menu w-100 p-3">
                     <div class="d-flex align-items-center mb-3">
