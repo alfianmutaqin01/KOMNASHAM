@@ -8,24 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('assignment_letters', function (Blueprint $table) {
+        Schema::create('letter_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Komisioner yang membuat surat
-            $table->string('nomor_surat')->unique(); // Nomor surat yang dihasilkan
-            $table->string('nama_komisioner'); // Nama komisioner yang ditugaskan (bisa dari user_id, tapi disimpan untuk history)
-            $table->string('jabatan_komisioner'); // Jabatan komisioner yang ditugaskan
-            $table->longText('tujuan_penugasan'); // Tujuan penugasan
-            $table->string('tempat_tugas'); // Lokasi penugasan
-            $table->date('tanggal_mulai_tugas');
-            $table->date('tanggal_selesai_tugas');
-            $table->longText('perihal')->nullable(); // Perihal surat tugas
-            $table->longText('dasar_hukum')->nullable(); // Dasar hukum penugasan
+            $table->string('key')->unique(); 
+            $table->longText('value')->nullable(); 
+            $table->string('description')->nullable(); 
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('assignment_letters');
+        Schema::dropIfExists('letter_settings');
     }
 };

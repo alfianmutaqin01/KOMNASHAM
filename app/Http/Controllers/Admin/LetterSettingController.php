@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+    namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+    use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
-class LetterSettingController extends Controller
-{
-    public function index()
+    class LetterSettingController extends Controller
     {
-        if (!Auth::user()->hasRole('admin')) { 
-            abort(403, 'Anda tidak memiliki akses ke pengaturan ini.');
+        public function index()
+        {
+            if (!Auth::user()->hasRole('admin')) {
+                abort(403, 'Anda tidak memiliki akses ke pengaturan ini.');
+            }
+            return view('admin.settings.letter');
         }
-        return view('admin.settings.letter');
     }
-}
+    

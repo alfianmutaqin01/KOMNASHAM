@@ -18,6 +18,7 @@ class AssignmentLetter extends Model
         'tempat_tugas',
         'tanggal_mulai_tugas',
         'tanggal_selesai_tugas',
+        'tahun', 
         'perihal',
         'dasar_hukum',
     ];
@@ -25,6 +26,7 @@ class AssignmentLetter extends Model
     protected $casts = [
         'tanggal_mulai_tugas' => 'date',
         'tanggal_selesai_tugas' => 'date',
+        'tahun' => 'integer', 
     ];
 
     public function user()

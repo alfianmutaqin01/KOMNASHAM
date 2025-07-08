@@ -11,7 +11,7 @@ class LetterSetting extends Model
 
     protected $fillable = ['key', 'value', 'description'];
     protected $casts = [
-        'value' => 'string', 
+        'value' => 'string',
     ];
 
     public static function getSetting($key, $default = null)
