@@ -1,4 +1,5 @@
 {{-- File: resources/views/livewire/dashboard-stats.blade.php --}}
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <div>
     <div class="row">
         <div class="col-lg-4 col-md-6 mb-4">
@@ -154,9 +155,9 @@
             const dataKegiatan = @json($laporanKegiatanPerStatus);
             const dataBulanan = @json($laporanBulanan);
 
-            const colors = d3.scaleOrdinal(d3.schemeCategory10);
+            // colors is no longer needed as a d3.scaleOrdinal
 
-            function drawPieChart(selector, data, legendSelector) {
+            function drawPieChart(selector, data, legendSelector, colorBase = d3.schemeCategory10) {
                 if (!data || data.length === 0) {
                     d3.select(selector).selectAll("*").remove();
                     d3.select(legendSelector).selectAll("*").remove();
@@ -182,7 +183,7 @@
                     .sort(null);
 
                 const arc = d3.arc()
-                    .innerRadius(0)
+                    .innerRadius(radius * 0.5) // ubah menjadi donat
                     .outerRadius(radius * 0.8);
 
                 const outerArc = d3.arc()
@@ -196,35 +197,35 @@
 
                 arcs.append("path")
                     .attr("d", arc)
-                    .attr("fill", (d, i) => colors(i))
+                    .attr("fill", (d, i) => colorBase[i % colorBase.length])
                     .attr("stroke", "white")
                     .style("stroke-width", "1px");
 
-                arcs.append("text")
-                    .attr("transform", d => {
-                        const pos = outerArc.centroid(d);
-                        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                        pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
-                        return `translate(${pos})`;
-                    })
-                    .attr("dy", "0.35em")
-                    .attr("text-anchor", d => (d.startAngle + d.endAngle) / 2 < Math.PI ? "start" : "end")
-                    .text(d => `${d.data.label} (${d.data.value})`)
-                    .style("font-size", "10px")
-                    .style("fill", "#333");
+                // arcs.append("text")
+                //     .attr("transform", d => {
+                //         const pos = outerArc.centroid(d);
+                //         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                //         pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                //         return `translate(${pos})`;
+                //     })
+                //     .attr("dy", "0.35em")
+                //     .attr("text-anchor", d => (d.startAngle + d.endAngle) / 2 < Math.PI ? "start" : "end")
+                //     .text(d => `${d.data.label} (${d.data.value})`)
+                //     .style("font-size", "10px")
+                //     .style("fill", "#333");
 
-                arcs.append("polyline")
-                    .attr("stroke", "#ccc")
-                    .style("fill", "none")
-                    .attr("stroke-width", 1)
-                    .attr("points", d => {
-                        const posA = arc.centroid(d);
-                        const posB = outerArc.centroid(d);
-                        const posC = outerArc.centroid(d);
-                        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                        posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
-                        return [posA, posB, posC];
-                    });
+                // arcs.append("polyline")
+                //     .attr("stroke", "#ccc")
+                //     .style("fill", "none")
+                //     .attr("stroke-width", 1)
+                //     .attr("points", d => {
+                //         const posA = arc.centroid(d);
+                //         const posB = outerArc.centroid(d);
+                //         const posC = outerArc.centroid(d);
+                //         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                //         posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
+                //         return [posA, posB, posC];
+                //     });
 
                 const legendEl = d3.select(legendSelector);
                 legendEl.selectAll("*").remove();
@@ -236,7 +237,7 @@
                         .attr("class", "d-flex align-items-center me-3 mb-1");
 
                     legendItem.append("span")
-                        .style("background-color", colors(i))
+                        .style("background-color", colorBase[i % colorBase.length])
                         .style("width", "12px")
                         .style("height", "12px")
                         .style("display", "inline-block")
@@ -257,7 +258,8 @@
                 }
 
                 const svg = d3.select(selector);
-                const margin = { top: 20, right: 20, bottom: 60, left: 50 };
+                // Tambahkan margin bottom lebih besar agar label tidak terpotong
+                const margin = { top: 20, right: 20, bottom: 80, left: 50 };
                 const containerWidth = svg.node().parentNode.getBoundingClientRect().width;
                 const containerHeight = svg.node().parentNode.getBoundingClientRect().height;
                 const width = containerWidth - margin.left - margin.right;
@@ -275,9 +277,10 @@
                     .padding(0.1)
                     .domain(data.map(d => d.bulan));
 
+                // Validasi domain y agar tetap tampil walau semua total = 0
                 const y = d3.scaleLinear()
                     .rangeRound([height, 0])
-                    .domain([0, d3.max(data, d => d.total)]);
+                    .domain([0, d3.max(data, d => d.total) || 1]);
 
                 g.append("g")
                     .attr("class", "axis axis--x")
@@ -287,8 +290,9 @@
                     .style("text-anchor", "end")
                     .attr("dx", "-.8em")
                     .attr("dy", ".15em")
-                    .attr("transform", "rotate(-45)")
-                    .style("font-size", "10px")
+                    .attr("transform", "rotate(-30)")
+                    .style("font-size", "11px")
+                    .style("font-weight", "500")
                     .style("fill", "#333");
 
                 g.append("g")
@@ -324,13 +328,13 @@
                     .style("font-size", "10px")
                     .style("fill", "#333");
             }
-            drawPieChart('#pieChartSidak', dataSidak, '#legendSidak');
-            drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan');
+            drawPieChart('#pieChartSidak', dataSidak, '#legendSidak', ['#1E88E5']);
+            drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan', ['#43A047']);
             drawBarChart('#barChartBulanan', dataBulanan);
 
             window.addEventListener('resize', () => {
-                drawPieChart('#pieChartSidak', dataSidak, '#legendSidak');
-                drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan');
+                drawPieChart('#pieChartSidak', dataSidak, '#legendSidak', ['#1E88E5']);
+                drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan', ['#43A047']);
                 drawBarChart('#barChartBulanan', dataBulanan);
             });
         });
