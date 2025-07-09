@@ -78,22 +78,22 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center"
-                            style="min-height: 250px;">
+                            style="min-height: 350px;">
                             <h6 class="mb-2 text-center">Laporan Sidak</h6>
                             @if ($laporanSidakPerStatus->isEmpty())
                                 <p class="text-muted fs-sm">Tidak ada data.</p>
                             @else
-                                <svg id="pieChartSidak" style="width: 100%; height: 200px;"></svg>
+                                <svg id="pieChartSidak" style="width: 100%; height: 100%;"></svg>
                                 <div id="legendSidak" class="text-center fs-sm mt-2"></div>
                             @endif
                         </div>
                         <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center"
-                            style="min-height: 250px;">
+                            style="min-height: 350px;">
                             <h6 class="mb-2 text-center">Laporan Kegiatan</h6>
                             @if ($laporanKegiatanPerStatus->isEmpty())
                                 <p class="text-muted fs-sm">Tidak ada data.</p>
                             @else
-                                <svg id="pieChartKegiatan" style="width: 100%; height: 200px;"></svg>
+                                <svg id="pieChartKegiatan" style="width: 100%; height: 100%;"></svg>
                                 <div id="legendKegiatan" class="text-center fs-sm mt-2"></div>
                             @endif
                         </div>
