@@ -87,7 +87,7 @@ class ActivityReportController extends Controller
             'currentDate' => Carbon::now()->translatedFormat('d F Y'),
         ];
 
-        $pdf = Pdf::loadView('komisioner.activity_reports.pdf', $data); // Buat view PDF terpisah
+        $pdf = Pdf::loadView('komisioner.activity_reports.pdf', $data); 
         return $pdf->download('Laporan_Kegiatan_' . $activityReport->tanggal_mulai->format('Ymd') . '_' . $activityReport->id . '.pdf');
     }
 }

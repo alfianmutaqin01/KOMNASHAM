@@ -337,7 +337,9 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                 <div class="text-end">
                     <button type="button" wire:click="saveReport(false)" class="btn btn-outline-warning me-2">Simpan
                         Draf</button>
-                    <button type="submit" class="btn btn-outline-primary">Simpan dan Cetak PDF</button>
+                    <button type="button" wire:click="saveReport(true)" class="btn btn-outline-primary">
+                        Simpan dan Cetak PDF
+                    </button>
                 </div>
             </form>
         </div>

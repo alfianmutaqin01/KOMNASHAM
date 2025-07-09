@@ -106,10 +106,14 @@
                 </div>
 
                 <div class="text-end">
-                    <button type="button" wire:click="saveLetter(false)" class="btn btn-outline-warning me-2">Simpan
-                        Draf</button>
-                    <button type="submit" class="btn btn-outline-primary">Simpan dan Cetak PDF</button>
+                    <button type="button" wire:click="saveLetter(false)" class="btn btn-outline-warning me-2">
+                        Simpan Draf
+                    </button>
+                    <button type="button" wire:click="saveLetter(true)" class="btn btn-outline-primary">
+                        Simpan dan Cetak PDF
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>

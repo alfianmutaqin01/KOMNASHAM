@@ -8,6 +8,7 @@ use App\Models\ActivityReport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
+
 class CreateActivityReportForm extends Component
 {
     use WithFileUploads; 
