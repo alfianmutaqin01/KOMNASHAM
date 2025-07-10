@@ -6,6 +6,7 @@
             <h5 class="mb-0">Riwayat Surat Tugas</h5>
         </div>
         <div class="card-body">
+            {{-- Menampilkan pesan sukses/error dari session --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
@@ -16,20 +17,20 @@
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
-                    </div>
+                </div>
             @endif
 
             @if ($assignmentLetters->isEmpty())
                 <div class="alert alert-info">Belum ada surat tugas yang dibuat.</div>
             @else
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped table-hover"> {{-- Tambah table-hover untuk efek hover --}}
                         <thead>
-                            <tr class="text-center">
+                            <tr class="table-light text-center"> {{-- Tambah table-light untuk header --}}
                                 <th style="width: 5%;">No.</th>
-                                <th style="width: 20%;">Nomor Surat</th>
+                                <th style="width: 15%;">Nomor Surat</th>
                                 <th style="width: 20%;">Komisioner</th>
-                                <th style="width: 20%;">Tujuan Penugasan</th>
+                                <th style="width: 25%;">Tujuan Penugasan</th>
                                 <th style="width: 15%;">Tanggal Tugas</th>
                                 <th style="width: 20%;">Aksi</th>
                             </tr>
@@ -81,6 +82,7 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
+                // Inisialisasi Tooltip Bootstrap
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)

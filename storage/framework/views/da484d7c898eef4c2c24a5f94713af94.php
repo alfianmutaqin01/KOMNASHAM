@@ -42,16 +42,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $activityReports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $activityReports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td class="text-center"><?php echo e($loop->iteration); ?></td>
+                                    <td class="text-center"><?php echo e(($activityReports->currentPage() - 1) * $activityReports->perPage() + $index + 1); ?></td>
                                     <td><?php echo e($report->nama_kegiatan); ?></td>
-                                    <td><?php echo e($report->tanggal_mulai->format('d/m/Y H:i')); ?> -
-                                        <?php echo e($report->tanggal_selesai->format('H:i')); ?></td>
+                                    <td><?php echo e($report->tanggal_mulai->format('d/m/Y H:i')); ?> - <?php echo e($report->tanggal_selesai->format('H:i')); ?></td>
                                     <td><?php echo e($report->lokasi_kegiatan); ?></td>
                                     <td class="text-center">
-                                        <span
-                                            class="badge bg-<?php echo e($report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success')); ?>">
+                                        <span class="badge bg-<?php echo e($report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success')); ?>">
                                             <?php echo e(ucfirst($report->status)); ?>
 
                                         </span>
@@ -85,6 +83,12 @@
                         </tbody>
                     </table>
                 </div>
+
+                
+                <div class="d-flex justify-content-center mt-3">
+                    <?php echo e($activityReports->links()); ?>
+
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -92,7 +96,7 @@
     <?php $__env->startPush('scripts'); ?>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle=\"tooltip\"]'))
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)
                 });
@@ -100,4 +104,5 @@
         </script>
     <?php $__env->stopPush(); ?>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('dashboard', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/komisioner/activity_reports/history.blade.php ENDPATH**/ ?>

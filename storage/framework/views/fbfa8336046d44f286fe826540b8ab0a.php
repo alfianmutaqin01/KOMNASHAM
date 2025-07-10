@@ -6,6 +6,7 @@
             <h5 class="mb-0">Riwayat Surat Tugas</h5>
         </div>
         <div class="card-body">
+            
             <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?php echo e(session('success')); ?>
@@ -18,20 +19,20 @@
                     <?php echo e(session('error')); ?>
 
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
-                    </div>
+                </div>
             <?php endif; ?>
 
             <?php if($assignmentLetters->isEmpty()): ?>
                 <div class="alert alert-info">Belum ada surat tugas yang dibuat.</div>
             <?php else: ?>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped table-hover"> 
                         <thead>
-                            <tr class="text-center">
+                            <tr class="table-light text-center"> 
                                 <th style="width: 5%;">No.</th>
-                                <th style="width: 20%;">Nomor Surat</th>
+                                <th style="width: 15%;">Nomor Surat</th>
                                 <th style="width: 20%;">Komisioner</th>
-                                <th style="width: 20%;">Tujuan Penugasan</th>
+                                <th style="width: 25%;">Tujuan Penugasan</th>
                                 <th style="width: 15%;">Tanggal Tugas</th>
                                 <th style="width: 20%;">Aksi</th>
                             </tr>
@@ -84,6 +85,7 @@
     <?php $__env->startPush('scripts'); ?>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
+                // Inisialisasi Tooltip Bootstrap
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -92,4 +94,5 @@
         </script>
     <?php $__env->stopPush(); ?>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('dashboard', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/komisioner/assignment_letters/history.blade.php ENDPATH**/ ?>

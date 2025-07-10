@@ -22,11 +22,10 @@ class ActivityReportController extends Controller
         abort(403, 'Anda harus login untuk mengakses halaman ini.');
     }
 
-    // Ambil data sesuai role
     if (auth()->user()->hasRole('admin')) {
-        $activityReports = ActivityReport::latest()->get();
+        $activityReports = ActivityReport::latest()->paginate(10);
     } else {
-        $activityReports = ActivityReport::where('user_id', auth()->id())->latest()->get();
+        $activityReports = ActivityReport::where('user_id', auth()->id())->latest()->paginate(10);
     }
 
     return view('komisioner.activity_reports.history', compact('activityReports'));

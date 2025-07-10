@@ -155,7 +155,7 @@ unset($__errorArgs, $__bag); ?>">
             <tbody>
                 <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
-                        <td class="text-center"><?php echo e($loop->iteration); ?></td>
+                        <td class="text-center"><?php echo e(($users->currentPage() - 1) * $users->perPage() + $loop->iteration); ?></td>
                         <td><?php echo e($user->name); ?></td>
                         <td><?php echo e($user->email); ?></td>
                         <td>

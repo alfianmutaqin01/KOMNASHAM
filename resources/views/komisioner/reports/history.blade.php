@@ -8,11 +8,10 @@
             @else
                 <div class="alert alert-info">Anda melihat laporan yang Anda buat.</div>
             @endif
-
             <h5 class="mb-0">Riwayat Laporan Sidak</h5>
         </div>
         <div class="card-body">
-            {{-- Menampilkan pesan sukses dari session (misalnya setelah update/delete) --}}
+            {{-- Menampilkan pesan sukses --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
@@ -36,42 +35,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($reports as $report)
+                            @foreach ($reports as $index => $report)
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">
+                                        {{ ($reports->currentPage() - 1) * $reports->perPage() + $index + 1 }}
+                                    </td>
                                     <td>{{ $report->tanggal_sidak->format('d/m/Y') }}</td>
                                     <td>{{ $report->lokasi }}</td>
                                     <td>{{ $report->instansi_dikunjungi }}</td>
                                     <td class="text-center">
-                                        <span
-                                            class="badge bg-{{ $report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success') }}">
+                                        <span class="badge bg-{{ $report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success') }}">
                                             {{ ucfirst($report->status) }}
                                         </span>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-1">
-                                            {{-- PERBAIKI: Menggunakan nama rute yang konsisten 'komisioner.reports.print' --}}
                                             <a href="{{ route('komisioner.reports.print', $report) }}"
                                                 class="btn btn-sm btn-outline-info" target="_blank" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="Cetak Laporan">
+                                                title="Cetak Laporan">
                                                 <i class="ph-printer"></i>
                                             </a>
-
-                                            {{-- Tombol Edit --}}
                                             <a href="{{ route('komisioner.laporan.edit', $report) }}"
                                                 class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="Edit Laporan">
+                                                title="Edit Laporan">
                                                 <i class="ph-pencil"></i>
                                             </a>
-
-                                            {{-- Tombol Hapus (dengan form DELETE method) --}}
                                             <form action="{{ route('komisioner.laporan.destroy', $report) }}" method="POST"
                                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini? Ini tidak dapat dibatalkan!');"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Hapus Laporan">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    data-bs-toggle="tooltip" title="Hapus Laporan">
                                                     <i class="ph-trash"></i>
                                                 </button>
                                             </form>
@@ -82,6 +77,11 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Navigasi halaman --}}
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $reports->links() }}
+                </div>
             @endif
         </div>
     </div>
@@ -89,9 +89,9 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function (el) {
+                    return new bootstrap.Tooltip(el);
                 });
             });
         </script>

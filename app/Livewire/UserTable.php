@@ -3,39 +3,37 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination; 
+use Livewire\WithPagination;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
-
 
 class UserTable extends Component
 {
     use WithPagination;
 
-    public $search = ''; 
-    public $perPage = 10; 
-    public $sortField = 'name'; 
-    public $sortAsc = true; 
+    public $search = '';
+    public $perPage = 10;
+    public $sortField = 'name';
+    public $sortAsc = true;
 
-    
     public $userId;
     public $name;
     public $email;
     public $password;
-    public $password_confirmation; 
-    public $role; 
+    public $password_confirmation;
+    public $role;
 
-    public $showUserForm = false; 
-    public $isEditMode = false; 
+    public $showUserForm = false;
+    public $isEditMode = false;
 
     protected function rules()
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', ($this->isEditMode ? 'unique:users,email,' . $this->userId : 'unique:users,email')], // Email unik kecuali saat edit diri sendiri
-            'password' => ($this->isEditMode && empty($this->password) ? 'nullable' : 'required') . '|min:8|confirmed', // Password opsional saat edit jika tidak diubah
-            'role' => 'required|string|exists:roles,name', // Pastikan peran ada di tabel roles
+            'email' => ['required', 'string', 'email', 'max:255', ($this->isEditMode ? 'unique:users,email,' . $this->userId : 'unique:users,email')],
+            'password' => ($this->isEditMode && empty($this->password) ? 'nullable' : 'required') . '|min:8|confirmed',
+            'role' => 'required|string|exists:roles,name',
         ];
     }
 
@@ -61,14 +59,14 @@ class UserTable extends Component
         $this->showUserForm = true;
     }
 
-    public function editUser(User $user) 
+    public function editUser(User $user)
     {
         $this->isEditMode = true;
         $this->showUserForm = true;
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->role; 
+        $this->role = $user->roles->pluck('name')->first(); // FIXED
 
         $this->password = '';
         $this->password_confirmation = '';
@@ -81,7 +79,6 @@ class UserTable extends Component
         $data = [
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
         ];
 
         if (!empty($this->password)) {
@@ -89,29 +86,27 @@ class UserTable extends Component
         }
 
         if ($this->isEditMode) {
-            $user = User::find($this->userId);
+            $user = User::findOrFail($this->userId);
             $user->update($data);
             session()->flash('success', 'Pengguna berhasil diperbarui!');
         } else {
-            $user = User::create($data);
+            $user = User::create($data + ['password' => bcrypt($this->password)]);
             session()->flash('success', 'Pengguna baru berhasil ditambahkan!');
         }
 
-        if (isset($this->role) && !empty($this->role)) {
-             $user->syncRoles([$this->role]);
+        if (!empty($this->role)) {
+            $user->syncRoles([$this->role]);
         }
 
-
-        $this->showUserForm = false; 
+        $this->showUserForm = false;
         $this->resetForm();
     }
 
     public function deleteUser(User $user)
     {
-        
         if (Auth::id() === $user->id) {
-             session()->flash('error', 'Anda tidak bisa menghapus akun Anda sendiri!');
-             return;
+            session()->flash('error', 'Anda tidak bisa menghapus akun Anda sendiri!');
+            return;
         }
 
         $user->delete();
@@ -120,7 +115,7 @@ class UserTable extends Component
 
     public function resetForm()
     {
-        $this->resetValidation(); 
+        $this->resetValidation();
         $this->reset([
             'userId',
             'name',
@@ -129,17 +124,21 @@ class UserTable extends Component
             'password_confirmation',
             'role',
             'showUserForm',
-            'isEditMode'
+            'isEditMode',
         ]);
     }
 
     public function render()
     {
-        $users = User::search($this->search) 
-                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                    ->paginate($this->perPage);
+        $users = User::with('roles')
+            ->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('email', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+            ->paginate($this->perPage);
 
-        $roles = Role::all(); 
+        $roles = Role::all();
 
         return view('livewire.user-table', compact('users', 'roles'));
     }

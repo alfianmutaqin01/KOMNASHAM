@@ -18,20 +18,19 @@ class ReportController extends Controller
 
         $data = [
             'report' => $report,
-            'user' => $report->user, // Memuat relasi user jika dibutuhkan di PDF
+            'user' => $report->user, 
             'currentDate' => Carbon::now()->translatedFormat('d F Y'), // Untuk tanggal di footer PDF
         ];
 
-        // Memuat view PDF dan memicu unduhan
         $pdf = Pdf::loadView('komisioner.reports.pdf', $data);
         return $pdf->download('Laporan_Sidak_' . $report->tanggal_sidak->format('Ymd') . '_' . $report->id . '.pdf');
     }
     public function history()
     {
         if (auth()->user()->role === 'admin') {
-            $reports = Report::latest()->get(); // Admin melihat semua laporan
+            $reports = Report::latest()->paginate(10); // Admin melihat semua laporan
         } else {
-            $reports = Report::where('user_id', auth()->id())->latest()->get(); // Komisioner hanya melihat laporannya sendiri
+            $reports = Report::where('user_id', auth()->id())->latest()->paginate(10); // Komisioner hanya melihat laporannya sendiri
         }
         return view('komisioner.reports.history', compact('reports'));
     }
@@ -48,7 +47,6 @@ class ReportController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Validasi data dari request
         $validatedData = $request->validate([
             'tanggal_sidak' => 'required|date',
             'lokasi' => 'required|string|max:255',
@@ -89,15 +87,12 @@ class ReportController extends Controller
 
     public function destroy(Report $report)
     {
-        // Otorisasi: Pastikan hanya pemilik laporan atau admin yang bisa menghapus
         if (auth()->id() !== $report->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
-        // Menghapus laporan dari database
         $report->delete();
 
-        // Mengalihkan kembali ke riwayat laporan dengan pesan sukses
         return redirect()->route('komisioner.laporan.riwayat')->with('success', 'Laporan berhasil dihapus.');
     }
 }

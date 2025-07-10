@@ -40,16 +40,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($activityReports as $report)
+                            @foreach ($activityReports as $index => $report)
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ ($activityReports->currentPage() - 1) * $activityReports->perPage() + $index + 1 }}</td>
                                     <td>{{ $report->nama_kegiatan }}</td>
-                                    <td>{{ $report->tanggal_mulai->format('d/m/Y H:i') }} -
-                                        {{ $report->tanggal_selesai->format('H:i') }}</td>
+                                    <td>{{ $report->tanggal_mulai->format('d/m/Y H:i') }} - {{ $report->tanggal_selesai->format('H:i') }}</td>
                                     <td>{{ $report->lokasi_kegiatan }}</td>
                                     <td class="text-center">
-                                        <span
-                                            class="badge bg-{{ $report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success') }}">
+                                        <span class="badge bg-{{ $report->status == 'draft' ? 'secondary' : ($report->status == 'submitted' ? 'primary' : 'success') }}">
                                             {{ ucfirst($report->status) }}
                                         </span>
                                     </td>
@@ -82,6 +80,11 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $activityReports->links() }}
+                </div>
             @endif
         </div>
     </div>
@@ -89,7 +92,7 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle=\"tooltip\"]'))
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)
                 });
