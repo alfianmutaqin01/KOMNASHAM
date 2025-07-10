@@ -4,15 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\AssignmentLetter;
-use App\Models\LetterSetting; 
+use App\Models\LetterSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
 
 class CreateAssignmentLetterForm extends Component
 {
-
     public AssignmentLetter $assignmentLetter;
 
     public $nama_komisioner;
@@ -24,7 +23,7 @@ class CreateAssignmentLetterForm extends Component
     public $perihal;
     public $dasar_hukum;
 
-    public $nomor_surat_terakhir_format; 
+    public $nomor_surat_terakhir_format;
     public $kop_surat_text;
     public $tanda_tangan_nama;
     public $tanda_tangan_jabatan;
@@ -40,18 +39,11 @@ class CreateAssignmentLetterForm extends Component
         'dasar_hukum' => 'nullable|string',
     ];
 
-    /**
-     
-     *
-     * @param AssignmentLetter|null $assignmentLetter 
-     * @return void
-     */
     public function mount(?AssignmentLetter $assignmentLetter = null)
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
 
         if ($assignmentLetter && $assignmentLetter->exists) {
-           
             if ($user->id !== $assignmentLetter->user_id && !$user->hasRole('admin')) {
                 abort(403, 'Anda tidak memiliki akses untuk mengedit surat tugas ini.');
             }
@@ -62,7 +54,7 @@ class CreateAssignmentLetterForm extends Component
         } else {
             $this->assignmentLetter = new AssignmentLetter();
             $this->nama_komisioner = $user->name;
-            $this->jabatan_komisioner = $user->jabatan; 
+            $this->jabatan_komisioner = $user->jabatan;
             $this->tanggal_mulai_tugas = Carbon::now()->format('Y-m-d');
             $this->tanggal_selesai_tugas = Carbon::now()->format('Y-m-d');
         }
@@ -70,10 +62,6 @@ class CreateAssignmentLetterForm extends Component
         $this->loadLetterSettings();
     }
 
-    /**
-     *
-     * @return void
-     */
     private function loadLetterSettings()
     {
         $this->nomor_surat_terakhir_format = LetterSetting::getSetting('nomor_surat_terakhir_format', '000/SK/KOMDAHAM/VII/YYYY');
@@ -82,19 +70,16 @@ class CreateAssignmentLetterForm extends Component
         $this->tanda_tangan_jabatan = LetterSetting::getSetting('tanda_tangan_jabatan', 'Jabatan Pejabat');
     }
 
-    /**
-     *
-     * @param bool $submitAndPrint 
-     * @return void|\Illuminate\Http\RedirectResponse
-     */
     public function saveLetter($submitAndPrint = false)
     {
         $this->validate();
 
+        // Logika generate nomor surat jika ini surat baru
         if (!$this->assignmentLetter->exists) {
             $tahun_surat = Carbon::parse($this->tanggal_mulai_tugas)->year;
-            $bulan_surat_romawi = strtoupper(Carbon::parse($this->tanggal_mulai_tugas)->format('M'));
+            $bulan_surat_romawi = strtoupper(Carbon::parse($this->tanggal_mulai_tugas)->translatedFormat('M')); // Menggunakan translatedFormat untuk bulan Romawi
 
+            // Dapatkan nomor urut terakhir untuk TAHUN DAN BULAN ini
             $lastLetterForMonthAndYear = AssignmentLetter::where('tahun', $tahun_surat)
                                                         ->where(DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(nomor_surat, '/', -2), '/', 1)"), $bulan_surat_romawi)
                                                         ->orderBy(DB::raw("CAST(SUBSTRING_INDEX(nomor_surat, '/', 1) AS UNSIGNED)"), 'desc')
@@ -107,15 +92,31 @@ class CreateAssignmentLetterForm extends Component
             }
             $newNumber = $lastNumber + 1;
 
-            $generatedNomorSurat = sprintf("%03d/SK/KOMDAHAM/%s/%s", $newNumber, $bulan_surat_romawi, $tahun_surat);
+            // Ambil format dari pengaturan admin
+            $format_template = $this->nomor_surat_terakhir_format;
 
+            // Ganti placeholder di format dengan nilai yang sesuai
+            $generatedNomorSurat = str_replace(
+                ['000', 'YYYY', 'MM', 'DD', 'bulan'], // Placeholder yang mungkin ada
+                [sprintf("%03d", $newNumber), $tahun_surat, Carbon::parse($this->tanggal_mulai_tugas)->format('m'), Carbon::parse($this->tanggal_mulai_tugas)->format('d'), $bulan_surat_romawi],
+                $format_template
+            );
+
+            // Periksa apakah nomor surat yang digenerate sudah ada di database
             $existingLetter = AssignmentLetter::where('nomor_surat', $generatedNomorSurat)->first();
             if ($existingLetter) {
+                // Jika nomor surat sudah ada, coba lagi dengan nomor berikutnya
                 $newNumber++;
-                $generatedNomorSurat = sprintf("%03d/SK/KOMDAHAM/%s/%s", $newNumber, $bulan_surat_romawi, $tahun_surat);
+                $generatedNomorSurat = str_replace(
+                    ['000', 'YYYY', 'MM', 'DD', 'bulan'],
+                    [sprintf("%03d", $newNumber), $tahun_surat, Carbon::parse($this->tanggal_mulai_tugas)->format('m'), Carbon::parse($this->tanggal_mulai_tugas)->format('d'), $bulan_surat_romawi],
+                    $format_template
+                );
+                // Jika masih ada konflik setelah ini, error unique constraint akan muncul lagi.
+                // Pertimbangkan untuk menggunakan try-catch di sekitar AssignmentLetter::create()
+                // untuk menangani konflik unique constraint dengan lebih elegan.
             }
             $this->assignmentLetter->nomor_surat = $generatedNomorSurat;
-
         }
 
         $dataToSave = [
@@ -141,14 +142,13 @@ class CreateAssignmentLetterForm extends Component
                 Session::flash('success', 'Surat tugas berhasil dibuat!');
             }
         } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() === '23000') { 
+            if ($e->getCode() === '23000') {
                 Session::flash('error', 'Gagal menyimpan: Nomor surat yang digenerate sudah ada. Silakan coba lagi atau periksa riwayat.');
-                $this->resetForm(); 
+                $this->resetForm();
                 return;
             }
-            throw $e; 
+            throw $e;
         }
-
 
         if ($submitAndPrint) {
             Session::flash('success', 'Surat tugas berhasil dibuat dan akan dicetak!');
@@ -163,16 +163,11 @@ class CreateAssignmentLetterForm extends Component
         }
     }
 
-    /**
-     * Mereset properti form ke nilai default.
-     *
-     * @return void
-     */
     public function resetForm()
     {
-        $this->resetValidation(); 
+        $this->resetValidation();
         $this->reset([
-            'assignmentLetter', 
+            'assignmentLetter',
             'nama_komisioner',
             'jabatan_komisioner',
             'tujuan_penugasan',
@@ -182,15 +177,11 @@ class CreateAssignmentLetterForm extends Component
             'perihal',
             'dasar_hukum',
         ]);
-        $this->mount(); 
+        $this->mount();
     }
 
-    /**
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function render()
     {
-        return view('livewire.create-assignment-letter-form'); 
+        return view('livewire.create-assignment-letter-form');
     }
 }

@@ -1,57 +1,34 @@
-
 <div>
+    
     <div class="row">
+        <!--[if BLOCK]><![endif]--><?php $__currentLoopData = [
+            ['title' => 'Laporan Sidak', 'icon' => 'ph-note-pencil', 'value' => $totalLaporanSidak, 'color' => 'primary'],
+            ['title' => 'Laporan Kegiatan', 'icon' => 'ph-file-text', 'value' => $totalLaporanKegiatan, 'color' => 'success'],
+            ['title' => 'Surat Tugas', 'icon' => 'ph-printer', 'value' => $totalSuratTugas, 'color' => 'info'],
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card bg-primary text-white">
+            <div class="card bg-<?php echo e($stat['color']); ?> text-white">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0"><?php echo e($totalLaporanSidak); ?></h3>
+                        <h3 class="mb-0"><?php echo e($stat['value']); ?></h3>
                         <div class="ms-auto">
-                            <i class="ph-note-pencil display-4 opacity-75"></i> 
+                            <i class="<?php echo e($stat['icon']); ?> display-4 opacity-75"></i>
                         </div>
                     </div>
                     <div>
-                        Total Laporan Sidak
-                        <div class="fs-sm opacity-75">Jumlah keseluruhan laporan sidak</div>
+                        Total <?php echo e($stat['title']); ?>
+
+                        <div class="fs-sm opacity-75">Jumlah keseluruhan <?php echo e(strtolower($stat['title'])); ?></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0"><?php echo e($totalLaporanKegiatan); ?></h3>
-                        <div class="ms-auto">
-                            <i class="ph-file-text display-4 opacity-75"></i>
-                        </div>
-                    </div>
-                    <div>
-                        Total Laporan Kegiatan
-                        <div class="fs-sm opacity-75">Jumlah keseluruhan laporan kegiatan</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0"><?php echo e($totalSuratTugas); ?></h3>
-                        <div class="ms-auto">
-                            <i class="ph-printer display-4 opacity-75"></i>
-                        </div>
-                    </div>
-                    <div>
-                        Total Surat Tugas
-                        <div class="fs-sm opacity-75">Jumlah surat tugas yang diterbitkan</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 
+    
     <div class="row">
+        
         <div class="col-xl-7 mb-4">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
@@ -64,11 +41,13 @@
                     <!--[if BLOCK]><![endif]--><?php if($laporanBulanan->isEmpty()): ?>
                         <p class="text-muted">Tidak ada data laporan bulanan.</p>
                     <?php else: ?>
-                        <svg id="barChartBulanan" style="width: 100%; height: 350px;"></svg>
+                        <svg id="barChartBulanan" wire:ignore style="width: 100%; height: 350px;"></svg>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
         </div>
+
+        
         <div class="col-xl-5 mb-4">
             <div class="card">
                 <div class="card-header">
@@ -76,23 +55,24 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center"
-                            style="min-height: 250px;">
+                        
+                        <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
                             <h6 class="mb-2 text-center">Laporan Sidak</h6>
                             <!--[if BLOCK]><![endif]--><?php if($laporanSidakPerStatus->isEmpty()): ?>
                                 <p class="text-muted fs-sm">Tidak ada data.</p>
                             <?php else: ?>
-                                <svg id="pieChartSidak" style="width: 100%; height: 200px;"></svg>
+                                <svg id="pieChartSidak" wire:ignore style="width: 100%; height: 200px;"></svg>
                                 <div id="legendSidak" class="text-center fs-sm mt-2"></div>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
-                        <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center"
-                            style="min-height: 250px;">
+
+                        
+                        <div class="col-sm-6 d-flex flex-column align-items-center justify-content-center" style="min-height: 250px;">
                             <h6 class="mb-2 text-center">Laporan Kegiatan</h6>
                             <!--[if BLOCK]><![endif]--><?php if($laporanKegiatanPerStatus->isEmpty()): ?>
                                 <p class="text-muted fs-sm">Tidak ada data.</p>
                             <?php else: ?>
-                                <svg id="pieChartKegiatan" style="width: 100%; height: 200px;"></svg>
+                                <svg id="pieChartKegiatan" wire:ignore style="width: 100%; height: 200px;"></svg>
                                 <div id="legendKegiatan" class="text-center fs-sm mt-2"></div>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
@@ -101,16 +81,16 @@
             </div>
         </div>
     </div>
+
+    
     <div class="row">
         <div class="col-xl-12 mb-4">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <h5 class="mb-0">Aktivitas Terbaru</h5>
                     <div class="ms-auto">
-                        <a href="<?php echo e(route('komisioner.laporan.riwayat')); ?>" class="btn btn-light btn-sm">Lihat Semua
-                            Laporan Sidak</a>
-                        <a href="<?php echo e(route('komisioner.kegiatan.riwayat')); ?>" class="btn btn-light btn-sm ms-2">Lihat
-                            Semua Laporan Kegiatan</a>
+                        <a href="<?php echo e(route('komisioner.laporan.riwayat')); ?>" class="btn btn-light btn-sm">Lihat Semua Laporan Sidak</a>
+                        <a href="<?php echo e(route('komisioner.kegiatan.riwayat')); ?>" class="btn btn-light btn-sm ms-2">Lihat Semua Laporan Kegiatan</a>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -126,21 +106,13 @@
                         <tbody>
                             <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $latestActivities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $activity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
-                                    <td>
-                                        <span
-                                            class="badge bg-<?php echo e($activity->type === 'Laporan Sidak' ? 'primary' : 'success'); ?>">
-                                            <?php echo e($activity->type); ?>
-
-                                        </span>
-                                    </td>
+                                    <td><span class="badge bg-<?php echo e($activity->type === 'Laporan Sidak' ? 'primary' : 'success'); ?>"><?php echo e($activity->type); ?></span></td>
                                     <td><?php echo e(Str::limit($activity->description, 70)); ?></td>
                                     <td><?php echo e($activity->user->name ?? 'N/A'); ?></td>
                                     <td><?php echo e($activity->created_at->diffForHumans()); ?></td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <tr>
-                                    <td colspan="4" class="text-center">Tidak ada aktivitas terbaru.</td>
-                                </tr>
+                                <tr><td colspan="4" class="text-center">Tidak ada aktivitas terbaru.</td></tr>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </tbody>
                     </table>
@@ -149,191 +121,90 @@
         </div>
     </div>
 
+    
+        <?php
+        $__scriptKey = '2478470670-0';
+        ob_start();
+    ?>
     <script>
-        document.addEventListener('livewire:initialized', () => {
+        const renderAllCharts = () => {
+            const dataBulanan = <?php echo json_encode($laporanBulanan, 15, 512) ?>;
             const dataSidak = <?php echo json_encode($laporanSidakPerStatus, 15, 512) ?>;
             const dataKegiatan = <?php echo json_encode($laporanKegiatanPerStatus, 15, 512) ?>;
-            const dataBulanan = <?php echo json_encode($laporanBulanan, 15, 512) ?>;
-
-            const colors = d3.scaleOrdinal(d3.schemeCategory10);
-
-            function drawPieChart(selector, data, legendSelector) {
-                if (!data || data.length === 0) {
-                    d3.select(selector).selectAll("*").remove();
-                    d3.select(legendSelector).selectAll("*").remove();
-                    return;
-                }
-
-                const svg = d3.select(selector);
-                const containerWidth = svg.node().parentNode.getBoundingClientRect().width;
-                const containerHeight = svg.node().parentNode.getBoundingClientRect().height;
-                const width = containerWidth;
-                const height = Math.min(containerWidth, containerHeight * 0.8);
-                const radius = Math.min(width, height) / 2;
-
-                svg.attr("width", width)
-                    .attr("height", height);
-                svg.selectAll("*").remove();
-
-                const g = svg.append("g")
-                    .attr("transform", `translate(${width / 2},${height / 2})`);
-
-                const pie = d3.pie()
-                    .value(d => d.value)
-                    .sort(null);
-
-                const arc = d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius * 0.8);
-
-                const outerArc = d3.arc()
-                    .innerRadius(radius * 0.9)
-                    .outerRadius(radius * 0.9);
-
-                const arcs = g.selectAll(".arc")
-                    .data(pie(data))
-                    .enter().append("g")
-                    .attr("class", "arc");
-
-                arcs.append("path")
-                    .attr("d", arc)
-                    .attr("fill", (d, i) => colors(i))
-                    .attr("stroke", "white")
-                    .style("stroke-width", "1px");
-
-                arcs.append("text")
-                    .attr("transform", d => {
-                        const pos = outerArc.centroid(d);
-                        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                        pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
-                        return `translate(${pos})`;
-                    })
-                    .attr("dy", "0.35em")
-                    .attr("text-anchor", d => (d.startAngle + d.endAngle) / 2 < Math.PI ? "start" : "end")
-                    .text(d => `${d.data.label} (${d.data.value})`)
-                    .style("font-size", "10px")
-                    .style("fill", "#333");
-
-                arcs.append("polyline")
-                    .attr("stroke", "#ccc")
-                    .style("fill", "none")
-                    .attr("stroke-width", 1)
-                    .attr("points", d => {
-                        const posA = arc.centroid(d);
-                        const posB = outerArc.centroid(d);
-                        const posC = outerArc.centroid(d);
-                        const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                        posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
-                        return [posA, posB, posC];
-                    });
-
-                const legendEl = d3.select(legendSelector);
-                legendEl.selectAll("*").remove();
-                const legend = legendEl.append("div")
-                    .attr("class", "d-flex flex-wrap justify-content-center");
-
-                data.forEach((d, i) => {
-                    const legendItem = legend.append("div")
-                        .attr("class", "d-flex align-items-center me-3 mb-1");
-
-                    legendItem.append("span")
-                        .style("background-color", colors(i))
-                        .style("width", "12px")
-                        .style("height", "12px")
-                        .style("display", "inline-block")
-                        .style("margin-right", "5px")
-                        .style("border-radius", "3px");
-
-                    legendItem.append("span")
-                        .text(`${d.label} (${d.value})`)
-                        .style("font-size", "12px")
-                        .style("color", "#333");
-                });
-            }
+            const color = d3.scaleOrdinal(d3.schemeCategory10);
 
             function drawBarChart(selector, data) {
-                if (!data || data.length === 0) {
-                    d3.select(selector).selectAll("*").remove();
-                    return;
-                }
+                const svg = d3.select(selector).html('');
+                const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+                const width = svg.node().clientWidth - margin.left - margin.right;
+                const height = svg.node().clientHeight - margin.top - margin.bottom;
 
-                const svg = d3.select(selector);
-                const margin = { top: 20, right: 20, bottom: 60, left: 50 };
-                const containerWidth = svg.node().parentNode.getBoundingClientRect().width;
-                const containerHeight = svg.node().parentNode.getBoundingClientRect().height;
-                const width = containerWidth - margin.left - margin.right;
-                const height = containerHeight - margin.top - margin.bottom;
-
-                svg.attr("width", containerWidth)
-                    .attr("height", containerHeight);
-                svg.selectAll("*").remove();
-
-                const g = svg.append("g")
+                const chart = svg.append("g")
                     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-                const x = d3.scaleBand()
-                    .rangeRound([0, width])
-                    .padding(0.1)
-                    .domain(data.map(d => d.bulan));
+                const x = d3.scaleBand().domain(data.map(d => d.bulan)).range([0, width]).padding(0.2);
+                const y = d3.scaleLinear().domain([0, d3.max(data, d => d.total)]).nice().range([height, 0]);
 
-                const y = d3.scaleLinear()
-                    .rangeRound([height, 0])
-                    .domain([0, d3.max(data, d => d.total)]);
+                chart.selectAll("rect")
+                    .data(data)
+                    .enter().append("rect")
+                    .attr("x", d => x(d.bulan))
+                    .attr("y", d => y(d.total))
+                    .attr("height", d => height - y(d.total))
+                    .attr("width", x.bandwidth())
+                    .attr("fill", "#4e73df");
 
-                g.append("g")
-                    .attr("class", "axis axis--x")
+                chart.append("g")
                     .attr("transform", `translate(0,${height})`)
                     .call(d3.axisBottom(x))
                     .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", ".15em")
-                    .attr("transform", "rotate(-45)")
-                    .style("font-size", "10px")
-                    .style("fill", "#333");
+                    .attr("transform", "rotate(-30)")
+                    .style("text-anchor", "end");
 
-                g.append("g")
-                    .attr("class", "axis axis--y")
-                    .call(d3.axisLeft(y).ticks(5))
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", "0.71em")
-                    .attr("text-anchor", "end")
-                    .text("Jumlah Laporan")
-                    .style("font-size", "10px")
-                    .style("fill", "#333");
-
-                g.selectAll(".bar")
-                    .data(data)
-                    .enter().append("rect")
-                    .attr("class", "bar")
-                    .attr("x", d => x(d.bulan))
-                    .attr("y", d => y(d.total))
-                    .attr("width", x.bandwidth())
-                    .attr("height", d => height - y(d.total))
-                    .attr("fill", "#4285F4");
-
-                g.selectAll(".bar-text")
-                    .data(data)
-                    .enter().append("text")
-                    .attr("class", "bar-text")
-                    .attr("x", d => x(d.bulan) + x.bandwidth() / 2)
-                    .attr("y", d => y(d.total) - 5)
-                    .attr("text-anchor", "middle")
-                    .text(d => d.total)
-                    .style("font-size", "10px")
-                    .style("fill", "#333");
+                chart.append("g").call(d3.axisLeft(y));
             }
-            drawPieChart('#pieChartSidak', dataSidak, '#legendSidak');
-            drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan');
-            drawBarChart('#barChartBulanan', dataBulanan);
 
-            window.addEventListener('resize', () => {
-                drawPieChart('#pieChartSidak', dataSidak, '#legendSidak');
-                drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan');
-                drawBarChart('#barChartBulanan', dataBulanan);
-            });
-        });
+            function drawPieChart(selector, data, legendSelector) {
+                const svg = d3.select(selector).html('');
+                const legend = d3.select(legendSelector).html('');
+                const width = svg.node().clientWidth;
+                const height = svg.node().clientHeight;
+                const radius = Math.min(width, height) / 2;
+
+                const chart = svg.append("g")
+                    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+                const pie = d3.pie().value(d => d.value);
+                const arc = d3.arc().innerRadius(0).outerRadius(radius);
+
+                const arcs = chart.selectAll("arc")
+                    .data(pie(data))
+                    .enter().append("g");
+
+                arcs.append("path")
+                    .attr("d", arc)
+                    .attr("fill", (_, i) => color(i));
+
+                data.forEach((d, i) => {
+                    legend.append("div")
+                        .style("color", color(i))
+                        .text(`${d.label}: ${d.value}`);
+                });
+            }
+
+            if (dataBulanan.length) drawBarChart('#barChartBulanan', dataBulanan);
+            if (dataSidak.length) drawPieChart('#pieChartSidak', dataSidak, '#legendSidak');
+            if (dataKegiatan.length) drawPieChart('#pieChartKegiatan', dataKegiatan, '#legendKegiatan');
+        };
+
+        document.addEventListener('DOMContentLoaded', renderAllCharts);
+        document.addEventListener('livewire:navigated', renderAllCharts);
+        window.addEventListener('resize', renderAllCharts);
     </script>
-</div><?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/livewire/dashboard-stats.blade.php ENDPATH**/ ?>
+        <?php
+        $__output = ob_get_clean();
+
+        \Livewire\store($this)->push('scripts', $__output, $__scriptKey)
+    ?>
+</div>
+<?php /**PATH D:\Kuliah\Kerja Praktek\KOMNASHAM\resources\views/livewire/dashboard-stats.blade.php ENDPATH**/ ?>

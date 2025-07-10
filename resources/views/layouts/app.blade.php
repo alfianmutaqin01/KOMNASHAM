@@ -8,15 +8,16 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite([])
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <!-- Styles -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @livewireStyles
+
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased">
@@ -25,7 +26,6 @@
     <div class="min-h-screen bg-gray-100">
         @livewire('navigation-menu')
 
-        <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -34,7 +34,6 @@
             </header>
         @endif
 
-        <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
@@ -43,19 +42,29 @@
     @stack('modals')
 
     @livewireScripts
-</body>
-<script>
-    window.addEventListener('DOMContentLoaded', function () {
+
+    @stack('scripts')
+
+    {{-- Pindahkan script yang mendengarkan event Livewire ke sini, setelah @livewireScripts --}}
+    {{-- atau lebih baik, bungkus dalam @push('scripts') di komponen Livewire Anda --}}
+    <script>
+        // Gunakan Livewire.on() untuk Livewire 3
         Livewire.on('open-pdf', function ({ url }) {
             const link = document.createElement('a');
             link.href = url;
-            link.download = '';
+            link.download = ''; // Biarkan kosong agar browser menanyakan atau membuka di tab baru
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         });
-    });
-</script>
 
+        // Untuk skenario D3.js, event livewire:navigated lebih relevan jika Anda menggunakan wire:navigate
+        // document.addEventListener('livewire:navigated', function () {
+        //     // Panggil fungsi inisialisasi D3.js di sini jika Anda tidak menggunakan @script
+        //     // Ini akan memastikan chart di-render ulang setelah navigasi Livewire
+        //     // (Tetapi @script di komponen Livewire adalah pendekatan yang lebih baik untuk chart D3.js)
+        // });
+    </script>
+</body>
 
 </html>
